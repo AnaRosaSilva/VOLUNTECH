@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Painel da ONG</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html" id="nav-login-link">Login</a></li>
+                    <li class="hidden" id="nav-logout-link"><a href="#" onclick="logout()">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="ong-dashboard" class="dashboard-section">
+            <div class="container">
+                <h2 id="welcome-message">Bem-vinda, ONG!</h2>
+
+                <div class="dashboard-controls">
+                    <a href="cadastro-oportunidade.html" class="btn-primary-small">Publicar Nova Oportunidade</a>
+                    <a href="perfil-ong.html" class="btn-secondary-small">Editar Perfil da ONG</a>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card opportunities-card">
+                        <h3>Minhas Oportunidades</h3>
+                        <div id="ong-opportunities-list">
+                            <div class="opportunity-item skeleton-text skeleton-long"></div>
+                            <div class="opportunity-item skeleton-text skeleton-medium"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card applications-received-card">
+                        <h3>Candidaturas Recebidas</h3>
+                        <div id="applications-received-list">
+                             <div class="application-received-item skeleton-text skeleton-long"></div>
+                            <div class="application-received-item skeleton-text skeleton-medium"></div>
+                        </div>
+                        </div>
+                </div>
+
+                <div id="not-logged-in-message" class="error-message hidden">
+                    Você precisa estar logado como **ONG** para acessar este painel. 
+                    <a href="login.html">Faça login aqui</a>.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Função para realizar o logout
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userType');
+            alert('Você foi desconectado(a).');
+            window.location.href = 'index.html'; // Redireciona para a página inicial
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = localStorage.getItem('userId');
+            const userType = localStorage.getItem('userType');
+            const welcomeMessage = document.getElementById('welcome-message');
+            const ongOpportunitiesList = document.getElementById('ong-opportunities-list');
+            const applicationsReceivedList = document.getElementById('applications-received-list');
+            const notLoggedInMessage = document.getElementById('not-logged-in-message');
+            const navLoginLink = document.getElementById('nav-login-link');
+            const navLogoutLink = document.getElementById('nav-logout-link');
+
+            // Atualiza links de navegação baseado no login
+            if (userId && userType === 'ong') {
+                navLoginLink.classList.add('hidden');
+                navLogoutLink.classList.remove('hidden');
+            } else {
+                navLoginLink.classList.remove('hidden');
+                navLogoutLink.classList.add('hidden');
+            }
+
+
+            // 1. Verificar se o usuário está logado e é uma ONG
+            if (!userId || userType !== 'ong') {
+                document.getElementById('ong-dashboard').classList.add('hidden'); // Esconde o painel inteiro
+                notLoggedInMessage.classList.remove('hidden');
+                return; // Para o script aqui se não estiver logado como ONG
+            }
+
+            // Se estiver logado como ONG, mostra o painel e personaliza a mensagem
+            document.getElementById('ong-dashboard').classList.remove('hidden');
+            // Mock para o nome da ONG (no futuro viria de uma API de perfil)
+            welcomeMessage.textContent = `Bem-vinda, ONG ${userId}!`; // Idealmente o nome real da ONG
+
+            // 2. Carregar Oportunidades Publicadas pela ONG
+            async function loadOngOpportunities() {
+                ongOpportunitiesList.innerHTML = `
+                    <div class="opportunity-item skeleton-text skeleton-long"></div>
+                    <div class="opportunity-item skeleton-text skeleton-medium"></div>
+                `;
+                try {
+                    // Simular delay de rede
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    // No futuro: await fetch(`/api/ong/${userId}/oportunidades`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } });
+                    const mockOngOpportunities = [
+                        { id: 1, titulo: "Aulas de Reforço para Crianças", status: "Ativa", candidaturas: 5 },
+                        { id: 3, titulo: "Campanha de Doação de Sangue", status: "Ativa", candidaturas: 2 },
+                        { id: 5, titulo: "Suporte Digital para Idosos", status: "Pausada", candidaturas: 0 }
+                    ];
+
+                    ongOpportunitiesList.innerHTML = ''; // Limpa esqueletos
+                    if (mockOngOpportunities.length === 0) {
+                        ongOpportunitiesList.innerHTML = '<p>Você ainda não publicou nenhuma oportunidade.</p>';
+                    } else {
+                        mockOngOpportunities.forEach(opp => {
+                            const oppDiv = document.createElement('div');
+                            oppDiv.className = 'opportunity-item';
+                            oppDiv.innerHTML = `
+                                <strong>${opp.titulo}</strong> (${opp.status}) <br>
+                                Candidaturas: ${opp.candidaturas} <br>
+                                <div class="opportunity-actions">
+                                    <a href="detalhes-oportunidade.html?id=${opp.id}" class="btn-secondary-small">Ver Detalhes</a>
+                                    <button class="btn-secondary-small" onclick="alert('Funcionalidade de Editar Oportunidade ID: ${opp.id}')">Editar</button>
+                                    <button class="btn-danger-small" onclick="alert('Funcionalidade de Excluir Oportunidade ID: ${opp.id}')">Excluir</button>
+                                </div>
+                            `;
+                            ongOpportunitiesList.appendChild(oppDiv);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar oportunidades da ONG:', error);
+                    ongOpportunitiesList.innerHTML = '<p class="error-message-small">Erro ao carregar suas oportunidades.</p>';
+                }
+            }
+
+            // 3. Carregar Candidaturas Recebidas
+            async function loadApplicationsReceived() {
+                applicationsReceivedList.innerHTML = `
+                    <div class="application-received-item skeleton-text skeleton-long"></div>
+                    <div class="application-received-item skeleton-text skeleton-medium"></div>
+                `;
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // No futuro: await fetch(`/api/ong/${userId}/candidaturas`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } });
+                    const mockApplicationsReceived = [
+                        { id: 101, oportunidade_titulo: "Aulas de Reforço para Crianças", voluntario_nome: "Maria Silva", status: "Pendente", id_oportunidade: 1, id_voluntario: 10 },
+                        { id: 102, oportunidade_titulo: "Aulas de Reforço para Crianças", voluntario_nome: "João Oliveira", status: "Pendente", id_oportunidade: 1, id_voluntario: 11 },
+                        { id: 103, oportunidade_titulo: "Campanha de Doação de Sangue", voluntario_nome: "Ana Pereira", status: "Aceita", id_oportunidade: 3, id_voluntario: 12 },
+                        { id: 104, oportunidade_titulo: "Suporte Digital para Idosos", voluntario_nome: "Pedro Souza", status: "Recusada", id_oportunidade: 5, id_voluntario: 13 }
+                    ];
+
+                    applicationsReceivedList.innerHTML = '';
+                    if (mockApplicationsReceived.length === 0) {
+                        applicationsReceivedList.innerHTML = '<p>Nenhuma candidatura recebida ainda.</p>';
+                    } else {
+                        mockApplicationsReceived.forEach(app => {
+                            const appDiv = document.createElement('div');
+                            appDiv.className = `application-received-item application-status-${app.status.toLowerCase()}`;
+                            appDiv.innerHTML = `
+                                <strong>Oportunidade:</strong> ${app.oportunidade_titulo} <br>
+                                <strong>Voluntário:</strong> ${app.voluntario_nome} <br>
+                                <strong>Status:</strong> <span class="status-badge">${app.status}</span>
+                                <div class="application-actions">
+                                    <button class="btn-secondary-small" onclick="alert('Ver perfil do voluntário ID: ${app.id_voluntario}')">Ver Perfil</button>
+                                    ${app.status === 'Pendente' ? `
+                                        <button class="btn-primary-small accept-btn" data-application-id="${app.id}" data-volunteer-id="${app.id_voluntario}" data-opportunity-id="${app.id_oportunidade}">Aceitar</button>
+                                        <button class="btn-danger-small reject-btn" data-application-id="${app.id}">Recusar</button>
+                                    ` : ''}
+                                    ${app.status === 'Aceita' ? `
+                                        <button class="btn-primary-small evaluate-btn" 
+                                                data-application-id="${app.id}" 
+                                                data-volunteer-id="${app.id_voluntario}" 
+                                                data-opportunity-id="${app.id_oportunidade}"
+                                                data-voluntario-nome="${app.voluntario_nome}" 
+                                                data-oportunidade-titulo="${app.oportunidade_titulo}">Avaliar</button>
+                                    ` : ''}
+                                </div>
+                            `;
+                            applicationsReceivedList.appendChild(appDiv);
+                        });
+
+                        // Adicionar event listeners para os botões de Ação
+                        document.querySelectorAll('.accept-btn').forEach(button => {
+                            button.addEventListener('click', (event) => {
+                                const appId = event.target.dataset.applicationId;
+                                const volId = event.target.dataset.volunteerId;
+                                const oppId = event.target.dataset.opportunityId;
+                                handleApplicationStatus(appId, 'Aceita', volId, oppId);
+                            });
+                        });
+
+                        document.querySelectorAll('.reject-btn').forEach(button => {
+                            button.addEventListener('click', (event) => {
+                                const appId = event.target.dataset.applicationId;
+                                handleApplicationStatus(appId, 'Recusada');
+                            });
+                        });
+
+                        document.querySelectorAll('.evaluate-btn').forEach(button => {
+                            button.addEventListener('click', (event) => {
+                                const appId = event.target.dataset.applicationId;
+                                const volId = event.target.dataset.volunteerId;
+                                const oppId = event.target.dataset.opportunityId;
+                                // ESTAS DUAS LINHAS SÃO AS NOVAS PARA PEGAR OS DADOS DO NOME E TÍTULO
+                                const volNome = event.target.dataset.voluntarioNome; 
+                                const oppTitulo = event.target.dataset.oportunidadeTitulo;
+                                
+                                // Redirecionar para página de avaliação com os IDs e nomes na URL
+                                window.location.href = `avaliar-participacao.html?candidaturaId=${appId}&voluntarioId=${volId}&oportunidadeId=${oppId}&voluntarioNome=${encodeURIComponent(volNome)}&oportunidadeTitulo=${encodeURIComponent(oppTitulo)}`;
+                            });
+                        });
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar candidaturas recebidas:', error);
+                    applicationsReceivedList.innerHTML = '<p class="error-message-small">Erro ao carregar candidaturas.</p>';
+                }
+            }
+
+            // Função para mudar o status da candidatura (simulado)
+            async function handleApplicationStatus(applicationId, newStatus, volunteerId = null, opportunityId = null) {
+                // No futuro, aqui você faria a chamada real à sua API:
+                // await fetch(`/api/candidaturas/${applicationId}/status`, {
+                //     method: 'PUT',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                //     },
+                //     body: JSON.stringify({ status: newStatus, id_voluntario: volunteerId, id_oportunidade: opportunityId })
+                // });
+                alert(`Candidatura ${applicationId} marcada como: ${newStatus}!`);
+
+                // Se aceita, enviar para API de certificado (simulado)
+                if (newStatus === 'Aceita') {
+                    // No futuro: await fetch('/api/certificados/gerar', {
+                    //     method: 'POST',
+                    //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+                    //     body: JSON.stringify({ id_voluntario: volunteerId, id_oportunidade: opportunityId })
+                    // });
+                    alert(`Certificado para o Voluntário ID: ${volunteerId} na Oportunidade ID: ${opportunityId} GERADO (simulado)!`);
+                }
+
+                // Recarregar a lista para ver a atualização
+                loadApplicationsReceived();
+            }
+
+            // Carregar todos os dados ao iniciar o painel
+            loadOngOpportunities();
+            loadApplicationsReceived();
+        });
+    </script>
+</body>
+</html>

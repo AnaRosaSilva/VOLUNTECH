@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Cadastrar Oportunidade</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="opportunity-register" class="form-section">
+            <div class="container">
+                <h2>Cadastrar Nova Oportunidade</h2>
+                <p>Preencha os detalhes da sua oportunidade de voluntariado para que os voluntários certos a encontrem!</p>
+
+                <form id="opportunityRegistrationForm">
+                    <div class="form-group">
+                        <label for="titulo_oportunidade">Título da Oportunidade:</label>
+                        <input type="text" id="titulo_oportunidade" name="titulo_oportunidade" placeholder="Ex: Aulas de Reforço para Crianças" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao_oportunidade">Descrição Detalhada:</label>
+                        <textarea id="descricao_oportunidade" name="descricao_oportunidade" rows="8" placeholder="Descreva as tarefas, o impacto e o que o voluntário fará." required></textarea>
+                        <small>Seja claro e detalhado para atrair os voluntários ideais.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="local_oportunidade">Local da Oportunidade:</label>
+                        <input type="text" id="local_oportunidade" name="local_oportunidade" placeholder="Ex: Rua A, 123 - Bairro X, Cidade - Estado" required>
+                        <small>Endereço completo ou "Trabalho Remoto", se aplicável.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="requisitos_oportunidade">Requisitos para o Voluntário (separados por vírgula):</label>
+                        <input type="text" id="requisitos_oportunidade" name="requisitos_oportunidade" placeholder="Ex: Experiência com crianças, Conhecimento em Excel" required>
+                        <small>Quais habilidades ou qualificações o voluntário precisa ter?</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="duracao_oportunidade">Duração da Oportunidade:</label>
+                        <input type="text" id="duracao_oportunidade" name="duracao_oportunidade" placeholder="Ex: 3 meses, Permanente, Evento de 1 dia" required>
+                        <small>Por quanto tempo a oportunidade estará disponível ou qual a carga horária?</small>
+                    </div>
+                     
+                    <div class="form-group">
+                        <label for="id_ong">ID da ONG (apenas para teste):</label>
+                        <input type="number" id="id_ong" name="id_ong" placeholder="Ex: 1" required>
+                        <small>No sistema real, este campo seria preenchido automaticamente após o login da ONG.</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Publicar Oportunidade</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('opportunityRegistrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            // Coleta dos dados do formulário
+            const formData = {
+                titulo: document.getElementById('titulo_oportunidade').value,
+                descricao: document.getElementById('descricao_oportunidade').value,
+                local: document.getElementById('local_oportunidade').value,
+                requisitos: document.getElementById('requisitos_oportunidade').value, // Armazena como string
+                duracao: document.getElementById('duracao_oportunidade').value,
+                id_ong: parseInt(document.getElementById('id_ong').value) // Converte para número inteiro
+            };
+
+            // Aqui você enviaria os dados para a sua API de backend
+            // (Exemplo de chamada fetch para o endpoint POST /api/oportunidades)
+            fetch('/api/oportunidades', { // Ajuste o endpoint conforme sua API
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Erro ao cadastrar oportunidade.');
+            })
+            .then(data => {
+                alert('Oportunidade cadastrada com sucesso!');
+                console.log('Resposta da API:', data);
+                // Opcional: Redirecionar para uma página de "minhas oportunidades" ou "painel da ONG"
+                // window.location.href = 'painel-ong.html';
+                this.reset(); // Limpa o formulário
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao cadastrar a oportunidade. Tente novamente mais tarde.');
+            });
+        });
+        // --- FUNÇÕES DE MÁSCARA E FORMULÁRIO (JÁ EXISTENTES) ---
+
+        // Função para verificar se o usuário está logado e é uma ONG
+        async function checkAuthAndRedirect() {
+            // No cenário real, você teria um token JWT no localStorage
+            const token = localStorage.getItem('authToken'); 
+            const userType = localStorage.getItem('userType'); // 'ong' ou 'voluntario'
+
+            if (!token || userType !== 'ong') {
+                alert('Você precisa estar logado como uma ONG para acessar esta página.');
+                window.location.href = 'index.html'; // Redireciona para a página inicial ou de login
+                return false;
+            }
+
+            // Opcional: Validar o token com o backend para maior segurança
+            // Isso garante que o token não foi adulterado ou expirou
+            /*
+            try {
+                const response = await fetch('/api/auth/verify-ong', { // Exemplo de endpoint no backend
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    alert('Sessão inválida ou expirada. Por favor, faça login novamente como ONG.');
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('userType');
+                    window.location.href = 'index.html';
+                    return false;
+                }
+                // Se chegou aqui, o token é válido e o usuário é uma ONG
+            } catch (error) {
+                console.error('Erro na validação do token:', error);
+                alert('Erro de autenticação. Por favor, tente novamente.');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userType');
+                window.location.href = 'index.html';
+                return false;
+            }
+            */
+
+            return true;
+        }
+
+        // Chamar a função de verificação assim que a página carregar
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthAndRedirect();
+        });
+
+        // --- RESTANTE DO SEU CÓDIGO DE ENVIO DE FORMULÁRIO ---
+        document.getElementById('opportunityRegistrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            // O ID da ONG não seria digitado manualmente aqui
+            // Ele seria obtido do token JWT ou de uma variável de sessão do backend
+            // const id_ong = localStorage.getItem('ongId'); // Exemplo de como você poderia pegar
+            const id_ong = 1; // Apenas para continuar testando o formulário, remover isso no futuro
+
+            const formData = {
+                titulo: document.getElementById('titulo_oportunidade').value,
+                descricao: document.getElementById('descricao_oportunidade').value,
+                local: document.getElementById('local_oportunidade').value,
+                requisitos: document.getElementById('requisitos_oportunidade').value,
+                duracao: document.getElementById('duracao_oportunidade').value,
+                id_ong: id_ong // Usar o ID da ONG logada
+            };
+
+            // ... (Restante do seu código fetch) ...
+            fetch('/api/oportunidades', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Enviar o token
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                if (response.status === 401 || response.status === 403) {
+                    throw new Error('Acesso não autorizado. Por favor, faça login como ONG.');
+                }
+                throw new Error('Erro ao cadastrar oportunidade.');
+            })
+            .then(data => {
+                alert('Oportunidade cadastrada com sucesso!');
+                console.log('Resposta da API:', data);
+                this.reset();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert(error.message || 'Ocorreu um erro ao cadastrar a oportunidade. Tente novamente mais tarde.');
+            });
+        });
+    </script>
+</body>
+</html>

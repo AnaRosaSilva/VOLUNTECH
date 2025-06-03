@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Redefinir Senha</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="reset-password-section" class="form-section">
+            <div class="container">
+                <h2>Redefina Sua Senha</h2>
+                <p id="token-status-message">Por favor, insira sua nova senha.</p>
+
+                <form id="resetPasswordForm" class="hidden">
+                    <div class="form-group">
+                        <label for="new_password">Nova Senha:</label>
+                        <input type="password" id="new_password" name="new_password" required minlength="6">
+                        <small>A senha deve ter no mínimo 6 caracteres.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm_password">Confirmar Nova Senha:</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Redefinir Senha</button>
+
+                    <div id="message" class="info-message hidden"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token'); // Pega o token da URL
+            
+            const tokenStatusMessage = document.getElementById('token-status-message');
+            const resetPasswordForm = document.getElementById('resetPasswordForm');
+            const messageDiv = document.getElementById('message');
+
+            if (!token) {
+                tokenStatusMessage.textContent = 'Erro: Token de redefinição não encontrado na URL.';
+                tokenStatusMessage.classList.add('error-message');
+                return; // Impede o formulário de aparecer se não houver token
+            }
+
+            // Simulação de validação do token no frontend
+            // Na vida real, esta validação ocorreria no backend via API
+            // E a página só carregaria se o token fosse válido.
+            // Aqui, apenas escondemos o formulário se o token for "invalido" (ex: se for uma string vazia para teste)
+            if (token === 'INVALID_TOKEN') { // Exemplo de token inválido para teste
+                 tokenStatusMessage.textContent = 'Token de redefinição inválido ou expirado.';
+                 tokenStatusMessage.classList.add('error-message');
+                 return;
+            }
+            
+            // Se chegou até aqui, assume que o token é válido para mostrar o formulário
+            resetPasswordForm.classList.remove('hidden');
+            tokenStatusMessage.textContent = 'Por favor, insira e confirme sua nova senha.';
+
+
+            document.getElementById('resetPasswordForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const newPassword = document.getElementById('new_password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
+
+                messageDiv.classList.remove('hidden', 'info-message', 'error-message');
+                messageDiv.textContent = 'Redefinindo senha...';
+                messageDiv.classList.add('info-message');
+
+                if (newPassword !== confirmPassword) {
+                    messageDiv.textContent = 'As senhas não coincidem!';
+                    messageDiv.classList.add('error-message');
+                    return;
+                }
+
+                if (newPassword.length < 6) {
+                    messageDiv.textContent = 'A senha deve ter no mínimo 6 caracteres.';
+                    messageDiv.classList.add('error-message');
+                    return;
+                }
+
+                try {
+                    // Endpoint na sua API de backend para redefinir a senha
+                    // Ele deve receber o token e a nova senha.
+                    const response = await fetch('/api/reset-password', { // Exemplo de endpoint
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            token: token,
+                            new_password: newPassword
+                        })
+                    });
+
+                    if (response.ok) {
+                        messageDiv.textContent = 'Sua senha foi redefinida com sucesso! Você pode fazer login agora.';
+                        messageDiv.classList.add('info-message');
+                        // Redirecionar para a página de obrigado com o tipo 'senha-redefinida'
+                        setTimeout(() => {
+                            window.location.href = 'obrigado.html?type=senha-redefinida';
+                        }, 2000); // Dar um tempo para o usuário ler a mensagem antes de redirecionar
+                    } else {
+                        const errorData = await response.json();
+                        messageDiv.textContent = 'Erro ao redefinir senha: ' + (errorData.message || 'Token inválido ou expirado.');
+                        messageDiv.classList.add('error-message');
+                        console.error('Erro ao redefinir senha:', errorData);
+                    }
+                } catch (error) {
+                    console.error('Erro na requisição:', error);
+                    messageDiv.textContent = 'Ocorreu um erro de conexão. Tente novamente mais tarde.';
+                    messageDiv.classList.add('error-message');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

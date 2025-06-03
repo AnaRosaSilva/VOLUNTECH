@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Candidatar-se à Oportunidade</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="candidatura-section" class="form-section">
+            <div class="container">
+                <h2 id="opportunity-title-placeholder">Candidatando-se à Oportunidade...</h2>
+                <p>Preencha os dados abaixo para formalizar sua candidatura. Seu perfil e mensagem serão enviados para a ONG responsável.</p>
+
+                <form id="applicationForm">
+                    <div class="form-group">
+                        <label for="motivation_message">Sua Mensagem de Motivação (Opcional):</label>
+                        <textarea id="motivation_message" name="motivation_message" rows="5" placeholder="Conte à ONG por que você tem interesse nesta oportunidade e o que te motiva a ajudar."></textarea>
+                        <small>Uma boa mensagem pode fazer a diferença!</small>
+                    </div>
+
+                    <input type="hidden" id="opportunity_id" name="opportunity_id">
+                    <input type="hidden" id="volunteer_id" name="volunteer_id">
+
+                    <button type="submit" class="btn-primary">Enviar Candidatura</button>
+                </form>
+
+                <div id="loading-message" class="info-message hidden">Carregando detalhes da oportunidade...</div>
+                <div id="error-message" class="error-message hidden"></div>
+                <div id="not-logged-in-message" class="error-message hidden">
+                    Você precisa estar logado como **Voluntário** para se candidatar. 
+                    <a href="login.html">Faça login aqui</a> ou <a href="cadastro-voluntario.html">cadastre-se</a>.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const opportunityId = parseInt(urlParams.get('oportunidadeId')); // Pega o ID da URL
+
+            const userId = localStorage.getItem('userId');
+            const userType = localStorage.getItem('userType');
+
+            const opportunityTitlePlaceholder = document.getElementById('opportunity-title-placeholder');
+            const opportunityIdInput = document.getElementById('opportunity_id');
+            const volunteerIdInput = document.getElementById('volunteer_id');
+            const applicationForm = document.getElementById('applicationForm');
+            const loadingMessage = document.getElementById('loading-message');
+            const errorMessage = document.getElementById('error-message');
+            const notLoggedInMessage = document.getElementById('not-logged-in-message');
+
+            // 1. Verificar se o usuário está logado e é um voluntário
+            if (!userId || userType !== 'voluntario') {
+                notLoggedInMessage.classList.remove('hidden');
+                applicationForm.classList.add('hidden'); // Esconde o formulário
+                opportunityTitlePlaceholder.textContent = "Acesso Negado";
+                return;
+            }
+
+            // 2. Preencher os campos ocultos com os IDs
+            opportunityIdInput.value = opportunityId;
+            volunteerIdInput.value = userId;
+
+            // 3. Obter e exibir o título da oportunidade (do mock de dados ou API)
+            if (!opportunityId) {
+                errorMessage.textContent = 'ID da oportunidade não especificado.';
+                errorMessage.classList.remove('hidden');
+                applicationForm.classList.add('hidden');
+                return;
+            }
+
+            loadingMessage.classList.remove('hidden');
+            applicationForm.classList.add('hidden'); // Esconde o formulário enquanto carrega
+
+            // Mock de dados para simular a resposta da API de detalhes (REMOVER QUANDO INTEGRAR)
+            const mockOpportunities = [
+                { id: 1, titulo: "Aulas de Reforço para Crianças", ong_nome: "ONG Saber Melhor" },
+                { id: 2, titulo: "Limpeza de Parques Urbanos", ong_nome: "Verde Cuiabá" },
+                { id: 3, titulo: "Campanha de Doação de Sangue", ong_nome: "Mãos que Curam" },
+                { id: 4, titulo: "Ajuda em Abrigo de Animais", ong_nome: "Patas Amigas" },
+                { id: 5, titulo: "Suporte Digital para Idosos", ong_nome: "Melhor Idade Digital" },
+                { id: 6, titulo: "Organização de Eventos Sociais", ong_nome: "Ações do Bem" }
+            ];
+
+            try {
+                // No futuro, faria uma chamada real para /api/oportunidades/:id
+                // const response = await fetch(`/api/oportunidades/${opportunityId}`);
+                // if (!response.ok) {
+                //     throw new Error('Oportunidade não encontrada.');
+                // }
+                // const opportunityDetails = await response.json();
+
+                // Usando mock para demonstração
+                const opportunityDetails = mockOpportunities.find(opp => opp.id === opportunityId);
+                await new Promise(resolve => setTimeout(resolve, 500)); // Simula delay
+
+                if (opportunityDetails) {
+                    opportunityTitlePlaceholder.textContent = `Candidatando-se a: "${opportunityDetails.titulo}"`;
+                    loadingMessage.classList.add('hidden');
+                    applicationForm.classList.remove('hidden'); // Mostra o formulário
+                } else {
+                    errorMessage.textContent = 'Oportunidade não encontrada.';
+                    errorMessage.classList.remove('hidden');
+                    loadingMessage.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar detalhes da oportunidade:', error);
+                errorMessage.textContent = 'Erro ao carregar detalhes da oportunidade. Tente novamente.';
+                errorMessage.classList.remove('hidden');
+                loadingMessage.classList.add('hidden');
+            }
+
+            // 4. Lidar com o envio do formulário de candidatura
+            applicationForm.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Impede o envio padrão do formulário
+
+                const motivationMessage = document.getElementById('motivation_message').value;
+
+                const applicationData = {
+                    id_oportunidade: parseInt(opportunityIdInput.value),
+                    id_voluntario: parseInt(volunteerIdInput.value),
+                    mensagem_motivacao: motivationMessage,
+                    status_candidatura: 'Pendente' // Status inicial padrão
+                };
+
+                try {
+                    // Endpoint para o cadastro de candidatura na sua API de backend
+                    const response = await fetch('/api/candidaturas', { // Seu endpoint POST /api/candidaturas
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Envia o token do voluntário logado
+                        },
+                        body: JSON.stringify(applicationData)
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        alert('Candidatura enviada com sucesso! A ONG analisará seu perfil.');
+                        console.log('Resposta da API:', data);
+                        // Redirecionar para a página de obrigado com o tipo 'candidatura'
+                        window.location.href = 'obrigado.html?type=candidatura'; 
+                    } else {
+                        // Tratar erros (ex: já se candidatou, erro do servidor)
+                        const errorData = await response.json();
+                        alert('Erro ao enviar candidatura: ' + (errorData.message || 'Tente novamente.'));
+                        console.error('Erro de candidatura:', errorData);
+                    }
+                } catch (error) {
+                    console.error('Erro na requisição de candidatura:', error);
+                    alert('Ocorreu um erro de conexão. Tente novamente mais tarde.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

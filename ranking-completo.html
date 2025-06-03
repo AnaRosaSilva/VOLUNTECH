@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Ranking de Voluntários</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos específicos para a página de ranking */
+        .ranking-section {
+            padding: 50px 0;
+            background-color: var(--background-color);
+            text-align: center;
+        }
+
+        .ranking-section .container {
+            max-width: 900px;
+        }
+
+        .ranking-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .ranking-section p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        .ranking-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 auto; /* Centraliza a lista */
+        }
+
+        .ranking-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .ranking-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .ranking-item .rank {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            min-width: 40px; /* Garante espaço para números maiores */
+            text-align: left;
+            margin-right: 15px;
+        }
+
+        .ranking-item .info {
+            flex-grow: 1; /* Ocupa o espaço restante */
+            text-align: left;
+        }
+
+        .ranking-item .info h4 {
+            margin: 0;
+            color: var(--text-color-dark);
+            font-size: 1.2rem;
+        }
+
+        .ranking-item .info p {
+            margin: 5px 0 0;
+            color: var(--text-color-light);
+            font-size: 0.95rem;
+        }
+
+        .ranking-item .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-left: 15px;
+            min-width: 80px; /* Espaço para a pontuação */
+            text-align: right;
+        }
+
+        /* Esqueletos de carregamento */
+        .skeleton-ranking-item {
+            background-color: #f0f0f0;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px; /* Altura aproximada do item */
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .skeleton-ranking-item .rank-placeholder,
+        .skeleton-ranking-item .info-placeholder,
+        .skeleton-ranking-item .score-placeholder {
+            background-color: #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .skeleton-ranking-item .rank-placeholder {
+            width: 30px;
+            height: 1.5em;
+        }
+
+        .skeleton-ranking-item .info-placeholder {
+            flex-grow: 1;
+            height: 1.2em;
+            margin-right: 20px;
+        }
+
+        .skeleton-ranking-item .score-placeholder {
+            width: 60px;
+            height: 1.2em;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="encontrar-oportunidades.html">Oportunidades</a></li>
+                    <li><a href="login.html" id="nav-login-link">Login</a></li>
+                    <li class="hidden" id="nav-logout-link"><a href="#" onclick="logout()">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="ranking-section" class="ranking-section">
+            <div class="container">
+                <h2>Ranking dos Voluntários</h2>
+                <p>Confira os voluntários que mais se destacaram em nossa plataforma!</p>
+
+                <div id="ranking-list-container">
+                    <ul id="ranking-list" class="ranking-list">
+                        <li class="skeleton-ranking-item">
+                            <div class="rank-placeholder"></div>
+                            <div class="info-placeholder"></div>
+                            <div class="score-placeholder"></div>
+                        </li>
+                        <li class="skeleton-ranking-item">
+                            <div class="rank-placeholder"></div>
+                            <div class="info-placeholder"></div>
+                            <div class="score-placeholder"></div>
+                        </li>
+                        <li class="skeleton-ranking-item">
+                            <div class="rank-placeholder"></div>
+                            <div class="info-placeholder"></div>
+                            <div class="score-placeholder"></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="message" class="info-message hidden"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userType');
+            alert('Você foi desconectado(a).');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const rankingList = document.getElementById('ranking-list');
+            const messageDiv = document.getElementById('message');
+            
+            const navLoginLink = document.getElementById('nav-login-link');
+            const navLogoutLink = document.getElementById('nav-logout-link');
+
+            // Atualiza links de navegação
+            if (localStorage.getItem('authToken')) {
+                navLoginLink.classList.add('hidden');
+                navLogoutLink.classList.remove('hidden');
+            } else {
+                navLoginLink.classList.remove('hidden');
+                navLogoutLink.classList.add('hidden');
+            }
+
+            async function loadRanking() {
+                // Limpa mensagens anteriores
+                messageDiv.classList.add('hidden');
+                messageDiv.classList.remove('info-message', 'error-message');
+
+                // Mostra esqueletos de carregamento
+                rankingList.innerHTML = `
+                    <li class="skeleton-ranking-item"><div class="rank-placeholder"></div><div class="info-placeholder"></div><div class="score-placeholder"></div></li>
+                    <li class="skeleton-ranking-item"><div class="rank-placeholder"></div><div class="info-placeholder"></div><div class="score-placeholder"></div></li>
+                    <li class="skeleton-ranking-item"><div class="rank-placeholder"></div><div class="info-placeholder"></div><div class="score-placeholder"></div></li>
+                `;
+
+                try {
+                    // Simular delay de rede
+                    await new Promise(resolve => setTimeout(resolve, 1200));
+
+                    // No futuro: Chamar sua API de ranking
+                    // const response = await fetch('/api/ranking', {
+                    //     method: 'GET',
+                    //     headers: {
+                    //         'Authorization': `Bearer ${localStorage.getItem('authToken')}` // Pode ser que o ranking não precise de auth
+                    //     }
+                    // });
+
+                    // if (!response.ok) {
+                    //     throw new Error('Não foi possível carregar o ranking.');
+                    // }
+                    // const rankingData = await response.json();
+
+                    // Dados mock para simular a resposta da API
+                    const rankingData = [
+                        { id: 1, nome_completo: "Isabela Costa", pontuacao: 120, total_oportunidades: 5 },
+                        { id: 2, nome_completo: "Carlos Eduardo", pontuacao: 100, total_oportunidades: 4 },
+                        { id: 3, nome_completo: "Mariana Oliveira", pontuacao: 95, total_oportunidades: 3 },
+                        { id: 4, nome_completo: "Gabriel Fernandes", pontuacao: 80, total_oportunidades: 3 },
+                        { id: 5, nome_completo: "Sofia Almeida", pontuacao: 70, total_oportunidades: 2 },
+                        { id: 6, nome_completo: "Lucas Rocha", pontuacao: 65, total_oportunidades: 2 },
+                        { id: 7, nome_completo: "Laura Martins", pontuacao: 50, total_oportunidades: 1 }
+                    ];
+
+                    rankingList.innerHTML = ''; // Limpa os esqueletos
+
+                    if (rankingData.length === 0) {
+                        messageDiv.classList.remove('hidden');
+                        messageDiv.classList.add('info-message');
+                        messageDiv.textContent = 'O ranking ainda está vazio. Seja o primeiro a participar!';
+                    } else {
+                        rankingData.forEach((voluntario, index) => {
+                            const listItem = document.createElement('li');
+                            listItem.className = 'ranking-item';
+                            listItem.innerHTML = `
+                                <div class="rank">#${index + 1}</div>
+                                <div class="info">
+                                    <h4>${voluntario.nome_completo}</h4>
+                                    <p>${voluntario.total_oportunidades} oportunidade(s) concluída(s)</p>
+                                </div>
+                                <div class="score">${voluntario.pontuacao} pts</div>
+                            `;
+                            rankingList.appendChild(listItem);
+                        });
+                    }
+
+                } catch (error) {
+                    console.error('Erro ao carregar ranking:', error);
+                    messageDiv.classList.remove('hidden');
+                    messageDiv.classList.add('error-message');
+                    messageDiv.textContent = 'Ocorreu um erro ao carregar o ranking. Tente novamente mais tarde.';
+                }
+            }
+
+            // Carregar o ranking ao carregar a página
+            loadRanking();
+        });
+    </script>
+</body>
+</html>

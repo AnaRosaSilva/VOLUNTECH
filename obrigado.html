@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Obrigado!</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos específicos para a página de Obrigado */
+        .thank-you-section {
+            padding: 80px 0;
+            background-color: var(--background-color);
+            text-align: center;
+        }
+
+        .thank-you-section .container {
+            max-width: 800px;
+        }
+
+        .thank-you-section h2 {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .thank-you-section p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        .thank-you-section .success-icon {
+            font-size: 8rem; /* Ícone grande */
+            color: #4CAF50; /* Verde de sucesso */
+            margin-bottom: 40px;
+            display: block; /* Garante que o ícone ocupe sua própria linha */
+        }
+
+        .thank-you-actions {
+            margin-top: 40px;
+            display: flex;
+            flex-wrap: wrap; /* Permite quebrar em várias linhas */
+            justify-content: center;
+            gap: 20px; /* Espaço entre os botões */
+        }
+
+        .thank-you-actions .btn-primary,
+        .thank-you-actions .btn-secondary {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            text-decoration: none;
+        }
+
+        .thank-you-actions .btn-secondary {
+            background-color: #6c757d; /* Cinza */
+            color: var(--light-text-color);
+        }
+        .thank-you-actions .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="thank-you-section">
+            <div class="container">
+                <span class="success-icon">✔</span> <h2 id="thank-you-title">Obrigado!</h2>
+                <p id="thank-you-message">Sua ação foi concluída com sucesso.</p>
+
+                <div id="thank-you-actions" class="thank-you-actions">
+                    <a href="index.html" class="btn-primary">Voltar para a Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get('type'); // Ex: 'cadastro-voluntario', 'candidatura', 'cadastro-ong'
+            const titleElement = document.getElementById('thank-you-title');
+            const messageElement = document.getElementById('thank-you-message');
+            const actionsDiv = document.getElementById('thank-you-actions');
+
+            actionsDiv.innerHTML = ''; // Limpa botões padrão
+
+            let title = "Obrigado!";
+            let message = "Sua ação foi concluída com sucesso.";
+            let buttons = [];
+
+            // Personalizar a mensagem e os botões com base no 'type'
+            switch (type) {
+                case 'cadastro-voluntario':
+                    title = "Cadastro de Voluntário Concluído!";
+                    message = "Seu cadastro foi realizado com sucesso. Agora você pode buscar oportunidades e se candidatar!";
+                    buttons.push({ text: "Fazer Login", href: "login.html", class: "btn-primary" });
+                    buttons.push({ text: "Ver Oportunidades", href: "encontrar-oportunidades.html", class: "btn-secondary" });
+                    break;
+                case 'cadastro-ong':
+                    title = "Cadastro de ONG Concluído!";
+                    message = "Sua organização foi cadastrada com sucesso. Agora você pode fazer login e publicar suas oportunidades!";
+                    buttons.push({ text: "Fazer Login", href: "login.html", class: "btn-primary" });
+                    buttons.push({ text: "Publicar Oportunidade", href: "cadastro-oportunidade.html", class: "btn-secondary" }); // Página a ser criada
+                    break;
+                case 'candidatura':
+                    title = "Candidatura Enviada!";
+                    message = "Sua candidatura foi enviada com sucesso para a ONG. Eles entrarão em contato em breve!";
+                    buttons.push({ text: "Ir para Meu Painel", href: "painel-voluntario.html", class: "btn-primary" });
+                    buttons.push({ text: "Ver Mais Oportunidades", href: "encontrar-oportunidades.html", class: "btn-secondary" });
+                    break;
+                case 'contato':
+                    title = "Mensagem Enviada!";
+                    message = "Agradecemos o seu contato. Retornaremos o mais breve possível!";
+                    buttons.push({ text: "Voltar para a Home", href: "index.html", class: "btn-primary" });
+                    buttons.push({ text: "Ver Oportunidades", href: "encontrar-oportunidades.html", class: "btn-secondary" });
+                    break;
+                case 'senha-redefinida':
+                    title = "Senha Redefinida!";
+                    message = "Sua senha foi atualizada com sucesso. Você já pode fazer login com sua nova senha.";
+                    buttons.push({ text: "Fazer Login", href: "login.html", class: "btn-primary" });
+                    buttons.push({ text: "Voltar para a Home", href: "index.html", class: "btn-secondary" });
+                    break;
+                default:
+                    // Caso nenhum 'type' específico seja passado ou seja inválido
+                    buttons.push({ text: "Voltar para a Home", href: "index.html", class: "btn-primary" });
+                    buttons.push({ text: "Ver Oportunidades", href: "encontrar-oportunidades.html", class: "btn-secondary" });
+                    break;
+            }
+
+            titleElement.textContent = title;
+            messageElement.textContent = message;
+
+            buttons.forEach(btn => {
+                const anchor = document.createElement('a');
+                anchor.href = btn.href;
+                anchor.className = btn.class;
+                anchor.textContent = btn.text;
+                actionsDiv.appendChild(anchor);
+            });
+        });
+    </script>
+</body>
+</html>

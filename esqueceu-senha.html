@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Esqueceu a Senha?</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="forgot-password-section" class="form-section">
+            <div class="container">
+                <h2>Esqueceu sua Senha?</h2>
+                <p>Por favor, informe o e-mail cadastrado em sua conta. Enviaremos um link para você redefinir sua senha.</p>
+
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Enviar Link de Redefinição</button>
+
+                    <div id="message" class="info-message hidden"></div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('forgotPasswordForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const email = document.getElementById('email').value;
+            const messageDiv = document.getElementById('message');
+
+            messageDiv.classList.remove('hidden', 'info-message', 'error-message');
+            messageDiv.textContent = 'Enviando...';
+            messageDiv.classList.add('info-message');
+
+            try {
+                // Endpoint na sua API de backend para solicitar a redefinição de senha
+                // Este endpoint DEVE enviar um e-mail para o usuário com um link contendo um token.
+                const response = await fetch('/api/forgot-password', { // Exemplo de endpoint
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+
+                if (response.ok) {
+                    messageDiv.textContent = 'Se um e-mail válido foi informado, um link para redefinir sua senha foi enviado para sua caixa de entrada.';
+                    messageDiv.classList.add('info-message');
+                    // Simular o envio do link para redefinir-senha.html?token=12345 (para testes frontend)
+                    // Na vida real, o backend geraria um token único e enviaria por email.
+                    // console.log(`Simulando envio de link: redefinir-senha.html?token=VALID_TOKEN_PARA_${email}`);
+                } else {
+                    const errorData = await response.json();
+                    messageDiv.textContent = 'Erro: ' + (errorData.message || 'Não foi possível enviar o link de redefinição.');
+                    messageDiv.classList.add('error-message');
+                    console.error('Erro ao solicitar redefinição:', errorData);
+                }
+            } catch (error) {
+                console.error('Erro na requisição:', error);
+                messageDiv.textContent = 'Ocorreu um erro de conexão. Tente novamente mais tarde.';
+                messageDiv.classList.add('error-message');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1100 @@
+/* Variáveis CSS para suas cores */
+:root {
+    --primary-color: #4CAF50; /* Substitua pela cor principal do seu PDF */
+    --secondary-color: #FFC107; /* Substitua por uma cor secundária do seu PDF, se houver */
+    --background-color: #F0F0F0; /* Substitua pela cor de fundo clara do seu PDF */
+    --text-color: #333; /* Cor do texto principal */
+    --light-text-color: #FFF; /* Cor do texto em fundos escuros */
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    color: var(--light-text-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Seção Hero (primeira tela) */
+.hero-section {
+    background-color: var(--primary-color); /* Use a cor principal para o fundo do hero */
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 100px 0;
+}
+
+.hero-section h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color); /* Ou uma cor de destaque do seu PDF */
+    color: var(--text-color);
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--secondary-color), 10%); /* Exemplo, ajuste se necessário */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--light-text-color);
+    border: 2px solid var(--light-text-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--light-text-color);
+    color: var(--primary-color);
+}
+
+/* Seção de Funcionalidades */
+.features-section {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.features-section h3 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.features-section ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.features-section ul li {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33% - 40px); /* Ajuste para responsividade */
+    text-align: left;
+}
+
+/* Rodapé */
+footer {
+    background-color: var(--text-color); /* Um tom escuro para o rodapé */
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+/* Media Queries para Responsividade Básica */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    header nav ul li {
+        margin: 5px 0;
+    }
+
+    .hero-section h2 {
+        font-size: 2rem;
+    }
+
+    .features-section ul li {
+        width: calc(50% - 40px);
+    }
+}
+
+@media (max-width: 480px) {
+    .features-section ul li {
+        width: 100%;
+    }
+}
+
+/* Estilos para Seções de Formulário */
+.form-section {
+    padding: 50px 0;
+    text-align: center;
+    background-color: #FFF; /* Fundo branco para o formulário */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    margin: 40px auto;
+    max-width: 600px; /* Largura máxima para o formulário */
+}
+
+.form-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.form-section p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+.form-section form {
+    text-align: left;
+    padding: 0 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"] {
+    width: calc(100% - 22px); /* Considerando padding e border */
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Garante que padding e border não aumentem a largura */
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(var(--primary-color), 0.5);
+}
+
+.form-group small {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+.form-section .btn-primary {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Ajustar o nav link para a nova página */
+header nav ul li a[href="cadastro-ong.html"] {
+    /* Você pode adicionar um estilo de destaque se quiser */
+    /* Ex: border-bottom: 2px solid var(--light-text-color); */
+}
+
+/* Correção para o darken - isso é para pré-processadores como Sass, não CSS puro */
+/* Se você não estiver usando um pré-processador, remova a função darken e use uma cor fixa */
+.btn-primary:hover {
+    background-color: #e5b100; /* Um amarelo um pouco mais escuro para o hover */
+}
+
+/* Estilos para a Seção "Sobre Nós" */
+.about-section {
+    padding: 60px 0;
+    background-color: #FFF;
+    text-align: center;
+}
+
+.about-section h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.about-section h3 {
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.about-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    color: var(--text-color);
+}
+
+.features-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-item {
+    background-color: var(--background-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    flex: 1 1 calc(33% - 60px); /* Aproximadamente 3 itens por linha */
+    max-width: 350px;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-item h4 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.team-members {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.team-member {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px; /* Largura fixa para os cards do time */
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.team-member h4 {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Media Queries para responsividade da página Sobre */
+@media (max-width: 992px) {
+    .features-list {
+        flex-direction: column; /* Empilha os itens em telas menores */
+        align-items: center;
+    }
+    .feature-item {
+        flex: 1 1 calc(50% - 60px); /* Dois itens por linha em tablets */
+        max-width: 450px;
+    }
+    .team-members {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .feature-item {
+        flex: 1 1 100%; /* Um item por linha em celulares */
+        max-width: 90%;
+    }
+}
+
+/* Estilos para a Seção de Oportunidades */
+.opportunities-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+    text-align: center;
+}
+
+.opportunities-section h2 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.opportunities-section p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    color: var(--text-color);
+}
+
+/* Barra de Filtro/Busca */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 40px;
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.filter-bar input[type="text"],
+.filter-bar select {
+    padding: 10px 15px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    font-size: 1rem;
+    flex: 1; /* Permite que os campos cresçam */
+    min-width: 200px; /* Largura mínima para evitar que fiquem muito pequenos */
+}
+
+.filter-bar button {
+    padding: 10px 25px;
+    font-size: 1rem;
+}
+
+/* Botão pequeno para filtro */
+.btn-primary-small {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Caso seja usado em <a> */
+    display: inline-block; /* Garante que padding funcione */
+}
+
+.btn-primary-small:hover {
+    background-color: darken(var(--primary-color), 10%);
+    /* Se não usar pré-processador, use um valor fixo, ex: #3e8e41 */
+}
+
+/* Grid de Oportunidades */
+.opportunity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Colunas responsivas */
+    gap: 30px;
+}
+
+.opportunity-card {
+    background-color: #FFF;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Para manter o botão no final */
+    transition: transform 0.2s ease-in-out;
+}
+
+.opportunity-card:hover {
+    transform: translateY(-5px);
+}
+
+.opportunity-card h3 {
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.opportunity-card .ong-name {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.opportunity-card p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.opportunity-card strong {
+    color: var(--primary-color);
+}
+
+.opportunity-card .apply-button {
+    margin-top: 20px;
+    align-self: flex-end; /* Alinha o botão ao final do card */
+    padding: 10px 20px; /* Ajuste para o botão do card */
+}
+
+/* Estilos para o esqueleto de carregamento */
+.skeleton {
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skeleton::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -200px;
+    top: 0;
+    height: 100%;
+    width: 200px;
+    background: linear-gradient(to right, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+    animation: loading 1.5s infinite forwards;
+}
+
+.skeleton-text {
+    height: 15px;
+    background-color: #e0e0e0;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.skeleton-text:first-of-type { width: 80%; }
+.skeleton-text:last-of-type { width: 60%; }
+.skeleton h3 {
+    height: 25px;
+    width: 70%;
+    background-color: #e0e0e0;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+@keyframes loading {
+    to {
+        left: 100%;
+    }
+}
+
+/* Mensagens de erro/sem resultados */
+.error-message, .no-results {
+    color: #D32F2F; /* Vermelho para erro */
+    font-size: 1.2rem;
+    margin-top: 30px;
+    grid-column: 1 / -1; /* Ocupa todas as colunas no grid */
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 768px) {
+    .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-bar input, .filter-bar select, .filter-bar button {
+        width: 100%; /* Ocupa a largura total */
+    }
+    .filter-bar button {
+        margin-top: 10px; /* Espaço entre os botões */
+    }
+}
+
+/* Estilos para os links de Esqueceu a Senha / Cadastro */
+.form-links {
+    margin-top: 25px;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.form-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}
+
+.form-links span {
+    color: #999;
+}
+
+/* Estilos para a Seção de Detalhes da Oportunidade */
+.details-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+}
+
+.opportunity-details-card {
+    background-color: #FFF;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 900px;
+    margin: 0 auto; /* Centraliza o card */
+}
+
+.opportunity-details-card h2 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--secondary-color); /* Linha de destaque */
+    padding-bottom: 10px;
+}
+
+.opportunity-details-card h3 {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.opportunity-details-card p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.opportunity-details-card .ong-name {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.opportunity-details-card .details-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+
+.details-info-grid .info-item {
+    background-color: var(--background-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.details-info-grid .info-item .icon {
+    font-size: 2rem; /* Aumenta o ícone */
+    display: block;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.details-info-grid .info-item h4 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.details-info-grid .info-item p {
+    font-size: 1rem;
+    margin: 0;
+}
+
+.opportunity-details-card #apply-button {
+    display: block; /* Ocupa a largura total */
+    width: 100%;
+    max-width: 300px; /* Largura máxima para o botão */
+    margin: 30px auto 0 auto; /* Centraliza o botão */
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    background-color: var(--secondary-color); /* Cor de destaque */
+    color: var(--text-color);
+    border: none;
+}
+
+.opportunity-details-card #apply-button:hover {
+    background-color: #e5b100; /* Um amarelo um pouco mais escuro para o hover */
+}
+
+/* Estilos de esqueleto mais específicos para a página de detalhes */
+.skeleton-title { height: 40px; width: 70%; margin-bottom: 20px; }
+.skeleton-ong-name { height: 20px; width: 40%; margin-bottom: 30px; }
+.skeleton-description { height: 20px; width: 100%; margin-bottom: 10px; }
+.skeleton-description-line { height: 20px; width: 90%; margin-bottom: 30px; }
+.skeleton-info { height: 20px; width: 80%; margin-bottom: 15px; }
+.skeleton-button { height: 50px; width: 300px; margin: 30px auto 0 auto; }
+
+/* Estilo para o link do card para que ele não pareça um link comum */
+.opportunity-card-link {
+    text-decoration: none; /* Remove o sublinhado */
+    color: inherit; /* Faz com que o texto dentro do link herde a cor do pai */
+    display: block; /* Faz o link ocupar todo o espaço do card */
+}
+
+/* Opcional: Para manter o efeito de hover no card mesmo quando o mouse está sobre o link */
+.opportunity-card-link:hover .opportunity-card {
+    transform: translateY(-5px); /* Mantém o efeito de hover no card quando o link é hoverado */
+}
+
+/* Estilos específicos para a página de Candidatura */
+#candidatura-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+}
+
+#candidatura-section h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#candidatura-section .form-section .container {
+    max-width: 700px; /* Reduz a largura do container para formulário */
+}
+
+/* Mensagens de status */
+.info-message, .error-message {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.info-message {
+    background-color: #e0f2f7; /* Azul claro */
+    color: #01579b; /* Azul escuro */
+}
+
+.error-message {
+    background-color: #ffebee; /* Vermelho claro */
+    color: #c62828; /* Vermelho escuro */
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Estilos para o placeholder do título */
+#opportunity-title-placeholder {
+    min-height: 3rem; /* Garante espaço mesmo sem conteúdo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos Gerais para o Painel (Dashboard) */
+.dashboard-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+}
+
+.dashboard-section h2 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px; /* Limita a largura do grid */
+    margin: 0 auto; /* Centraliza o grid */
+}
+
+.dashboard-card {
+    background-color: #FFF;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-card h3 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #EEE;
+}
+
+.dashboard-card p {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+/* Estilos para Candidaturas */
+.applications-card .application-item {
+    padding: 15px;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.applications-card .application-item:last-child {
+    margin-bottom: 0;
+}
+
+.applications-card .status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.applications-card .application-status-pendente .status-badge {
+    background-color: #FFC107; /* Amarelo */
+}
+
+.applications-card .application-status-aceita .status-badge {
+    background-color: #4CAF50; /* Verde */
+}
+
+.applications-card .application-status-recusada .status-badge {
+    background-color: #F44336; /* Vermelho */
+}
+
+/* Estilos para Certificados */
+.certificates-card .certificate-item {
+    padding: 15px;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha o conteúdo à esquerda */
+}
+
+.certificates-card .certificate-item .download-btn {
+    margin-top: 10px;
+    align-self: flex-end; /* Alinha o botão para a direita dentro do item */
+}
+
+/* Estilos para Ranking */
+.ranking-card {
+    text-align: center;
+    justify-content: center; /* Centraliza verticalmente o conteúdo */
+    align-items: center; /* Centraliza horizontalmente o conteúdo */
+}
+
+.ranking-card .ranking-position {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.ranking-card .ranking-points {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.ranking-card .ranking-total {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+/* Esqueletos específicos para o dashboard */
+.skeleton-long { height: 1.2em; width: 90%; margin-bottom: 10px; }
+.skeleton-medium { height: 1.2em; width: 70%; margin-bottom: 10px; }
+.skeleton-short { height: 1.2em; width: 50%; margin-bottom: 10px; }
+.skeleton-title { height: 2em; width: 60%; margin: 10px auto; } /* Para títulos grandes */
+
+/* Mensagens de erro pequenas dentro dos cards */
+.error-message-small {
+    color: #D32F2F;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* Estilos específicos para o Painel da ONG */
+.dashboard-controls {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.dashboard-controls .btn-primary-small {
+    padding: 12px 25px;
+    font-size: 1.1rem;
+}
+
+/* Estilos para "Minhas Oportunidades" */
+.opportunities-card .opportunity-item {
+    padding: 15px;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.opportunities-card .opportunity-item:last-child {
+    margin-bottom: 0;
+}
+
+.opportunities-card .opportunity-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px; /* Espaço entre os botões */
+    flex-wrap: wrap; /* Para que os botões quebrem a linha em telas pequenas */
+}
+
+/* Botões menores específicos para ações */
+.btn-secondary-small {
+    background-color: #6c757d; /* Cinza */
+    color: var(--light-text-color);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary-small:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger-small {
+    background-color: #dc3545; /* Vermelho */
+    color: var(--light-text-color);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-danger-small:hover {
+    background-color: #c82333;
+}
+
+
+/* Estilos para "Candidaturas Recebidas" */
+.applications-received-card .application-received-item {
+    padding: 15px;
+    border: 1px solid #EEE;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+.applications-received-card .application-received-item:last-child {
+    margin-bottom: 0;
+}
+
+.applications-received-card .application-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Reutilizando os status badges do painel do voluntário */
+.applications-received-card .status-badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.applications-received-card .application-status-pendente .status-badge {
+    background-color: #FFC107; /* Amarelo */
+}
+
+.applications-received-card .application-status-aceita .status-badge {
+    background-color: #4CAF50; /* Verde */
+}
+
+.applications-received-card .application-status-recusada .status-badge {
+    background-color: #F44336; /* Vermelho */
+}
+
+/* --- Ajustes para o alinhamento dos botões sociais --- */
+.social-login {
+    margin-top: 30px;
+    text-align: center; /* Centraliza o texto "Ou entre com:" */
+    display: flex; /* Transforma o container em um flex container */
+    flex-direction: column; /* Coloca os itens em coluna */
+    align-items: center; /* Centraliza horizontalmente os itens dentro do flex container */
+    gap: 15px; /* Adiciona espaçamento entre os itens flex */
+}
+
+.social-login p {
+    margin-bottom: 0; /* Remove a margem inferior para que o gap faça o espaçamento */
+    color: #555;
+    font-size: 1em;
+}
+
+.social-login hr {
+    width: 80%; /* Para a linha horizontal ser mais estreita que o container */
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 25px 0; /* Ajuste a margem se o 'gap' não for suficiente para seu gosto */
+}
+
+
+/* Estilo para o botão Google (o GSI renderiza seu próprio HTML dentro deste div) */
+.g_id_signin {
+    /* Não adicione display: block ou inline-block aqui se o GSI já está gerenciando. */
+    /* Deixe o GSI renderizar como ele achar melhor, e o flexbox do .social-login vai centralizá-lo. */
+    margin: 0; /* Zere a margem padrão para o gap do flex container funcionar */
+    width: 100%; /* Permite que o container do GSI ocupe a largura disponível, se necessário */
+    max-width: 300px; /* Alinhe com o max-width do botão GitHub para consistência */
+}
+
+/* Estilo para o botão GitHub */
+.btn-github {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease;
+    /* Com flex-direction: column e align-items: center no pai,
+       você não precisa de display: block e margin: auto para centralizar. */
+    width: 100%; /* Ocupa a largura disponível no container */
+    max-width: 300px; /* Limite a largura para ficar parecido com o Google */
+    margin: 0; /* Zere a margem para o gap do flex container funcionar */
+}
+
+.btn-github:hover {
+    background-color: #555;
+}
+
+.form-links {
+    margin-top: 25px;
+    text-align: center;
+    /* Se você quiser que os links fiquem em uma linha centralizada, pode usar flex aqui também */
+    display: flex;
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    flex-wrap: wrap; /* Permite que os itens quebrem a linha em telas menores */
+    gap: 5px; /* Espaço menor entre os links e os spans */
+}
+
+.form-links a {
+    color: #4CAF50; /* Verde */
+    text-decoration: none;
+    font-size: 0.9em;
+    white-space: nowrap; /* Impede que o texto do link quebre a linha */
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}
+
+.form-links span {
+    margin: 0; /* O gap do flexbox cuida do espaçamento */
+    color: #999;
+}
+
+/* Remova ou ajuste estes estilos se você removeu completamente o formulário tradicional */
+/* .form-group, .btn-primary {
+    display: none;
+} */
+
+
+/* Responsividade básica (mantenha ou ajuste) */
+@media (max-width: 600px) {
+    .form-section .container {
+        padding: 20px;
+    }
+    .btn-github, .g_id_signin {
+        max-width: 100%; /* Em telas pequenas, ocupa toda a largura */
+    }
+    .social-login hr {
+        width: 100%; /* Linha cheia em telas pequenas */
+    }
+}

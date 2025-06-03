@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+      import { getAuth, GoogleAuthProvider, GithubAuthProvider, signInWithPopup, signInWithRedirect } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "SUA_API_KEY_DO_FIREBASE", // Vem do Firebase Console
+        authDomain: "SEU_AUTH_DOMAIN_DO_FIREBASE",
+        projectId: "SEU_PROJECT_ID_DO_FIREBASE",
+        storageBucket: "SEU_STORAGE_BUCKET_DO_FIREBASE",
+        messagingSenderId: "SEU_MESSAGING_SENDER_ID_DO_FIREBASE",
+        appId: "SEU_APP_ID_DO_FIREBASE"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app); // Obtenha a instância de autenticação
+
+      // Exponha 'auth' globalmente para ser acessível no script abaixo
+      window.firebaseAuth = auth;
+      window.GoogleAuthProvider = GoogleAuthProvider;
+      window.GithubAuthProvider = GithubAuthProvider;
+      window.signInWithPopup = signInWithPopup;
+      window.signInWithRedirect = signInWithRedirect;
+
+      // Importante: Redireciona usuários após o login com GitHub (ou outros provedores)
+      // Se usar signInWithRedirect, você precisa lidar com o resultado em uma página de redirecionamento
+      // ou na mesma página de login. Aqui, estamos na mesma página, então ele vai processar o redirecionamento.
+      // import { getRedirectResult } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+      // getRedirectResult(auth).then((result) => {
+      //    if (result) {
+      //        const credential = GithubAuthProvider.credentialFromResult(result);
+      //        const user = result.user;
+      //        // Aqui você pode chamar handleCredentialResponse com o token do Firebase
+      //        // do user.getIdToken()
+      //        user.getIdToken().then(idToken => {
+      //            handleCredentialResponse({ credential: idToken });
+      //        });
+      //    }
+      // }).catch((error) => {
+      //    console.error("Erro no redirecionamento de login:", error);
+      //    alert("Erro ao finalizar login com redirecionamento.");
+      // });
+
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="login-section" class="form-section">
+            <div class="container">
+                <h2>Acesse sua Conta VolunTech</h2>
+                <p>Entre para acessar seu painel.</p>
+
+                <div class="social-login">
+                    <p>Entre com:</p>
+                    <div id="g_id_onload"
+                         data-client_id="SEU_CLIENT_ID_DO_GOOGLE_CLOUD"
+                         data-callback="handleCredentialResponse"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-size="large"
+                         data-theme="outline"
+                         data-text="sign_in_with"
+                         data-shape="rectangular"
+                         data-logo_alignment="left">
+                    </div>
+
+                    <button id="btnGithub" class="btn-github">GitHub</button>
+                    <hr>
+                    <div class="form-links">
+                        <a href="esqueceu-senha.html">Esqueceu sua senha?</a>
+                        <span>•</span>
+                        <a href="cadastro-ong.html">Cadastre sua ONG</a>
+                        <span>•</span>
+                        <a href="cadastro-voluntario.html">Cadastre-se como Voluntário</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        // Este é um módulo JS, então as funções devem ser exportadas se forem chamadas de fora
+        // ou você pode mover todo o código para cá. Para simplificar, vou manter a estrutura
+        // global para as funções de callback.
+
+        // Callback para a resposta do Google Identity Services (chamada pelo GSI automaticamente)
+        window.handleCredentialResponse = async function(response) {
+            const googleIdToken = response.credential;
+            console.log("ID Token Google recebido:", googleIdToken);
+            
+            // Chamar a função unificada de processamento de login
+            await processLogin(googleIdToken, 'google.com'); // Provedor Google
+        };
+
+        // Event listener para o botão GitHub
+        document.getElementById('btnGithub').addEventListener('click', async function() {
+            // Certifique-se de que window.firebaseAuth e GithubAuthProvider estão disponíveis
+            if (!window.firebaseAuth || !window.GithubAuthProvider || !window.signInWithPopup) {
+                alert("Firebase SDK para GitHub não carregado corretamente. Verifique sua configuração.");
+                return;
+            }
+
+            const provider = new window.GithubAuthProvider();
+            try {
+                // signInWithPopup abre um popup, signInWithRedirect redireciona a página
+                const result = await window.signInWithPopup(window.firebaseAuth, provider);
+                const user = result.user; // Usuário do Firebase
+                const githubIdToken = await user.getIdToken(); // Obtém o ID Token do Firebase para este usuário
+
+                console.log("ID Token GitHub recebido:", githubIdToken);
+                await processLogin(githubIdToken, 'github.com'); // Provedor GitHub
+
+            } catch (error) {
+                console.error("Erro no login com GitHub:", error.code, error.message);
+                alert("Erro ao fazer login com GitHub: " + error.message);
+            }
+        });
+
+        // Função unificada para processar o token do provedor social
+        async function processLogin(idToken, providerId) {
+            // Lógica para Coletar Tipo de Usuário e Dados Adicionais
+            // Como discutido, esta é uma simplificação para demonstração.
+            // Em uma app real, o backend retornaria se o usuário é novo e precisa completar cadastro.
+            let userType = localStorage.getItem('userTypeOnFirstLogin');
+            if (!userType) {
+                userType = prompt(`Bem-vindo(a) via ${providerId}! Para prosseguir, precisamos saber se você é uma ONG ou um Voluntário. Digite 'ong' ou 'voluntario':`);
+                if (!userType || (userType !== 'ong' && userType !== 'voluntario')) {
+                    alert("Tipo de usuário inválido. O login foi cancelado.");
+                    return;
+                }
+                localStorage.setItem('userTypeOnFirstLogin', userType);
+            }
+
+            let profileData = {};
+            if (userType === 'ong') {
+                profileData.nome_ong = prompt("Qual o nome da sua ONG?");
+                profileData.cnpj = prompt("Qual o CNPJ da sua ONG? (Apenas números)");
+                profileData.descricao = prompt("Qual a descrição da sua ONG? (Opcional)");
+            } else if (userType === 'voluntario') {
+                profileData.nome_completo = prompt("Qual o seu nome completo?");
+                profileData.data_nascimento = prompt("Qual a sua data de nascimento? (Formato AAAA-MM-DD)");
+                profileData.telefone = prompt("Qual o seu telefone? (Ex: 5511999998888)");
+            }
+
+            try {
+                // Endpoint do SEU backend PHP para processar o login/registro
+                const backendUrl = 'URL_DO_SEU_BACKEND_PHP/api/auth/google'; // Seu backend PHP vai verificar este token, seja Google ou GitHub
+                                                                             // (o token do GitHub via Firebase também é um JWT assinado pelo Firebase)
+                const response = await fetch(backendUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        googleIdToken: idToken, // Usamos o mesmo nome 'googleIdToken' para simplificar no backend PHP
+                        userType: userType,
+                        ...profileData
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const { token, userId, userType: returnedUserType } = data;
+
+                    // Armazenar o TOKEN DO SEU BACKEND e o tipo de usuário no localStorage
+                    localStorage.setItem('authToken', token);
+                    localStorage.setItem('userId', userId);
+                    localStorage.setItem('userType', returnedUserType);
+
+                    alert('Login/Registro VolunTech realizado com sucesso!');
+                    console.log('Dados do VolunTech:', data);
+
+                    // Redirecionar para o painel apropriado
+                    if (returnedUserType === 'ong') {
+                        window.location.href = 'painel-ong.html';
+                    } else if (returnedUserType === 'voluntario') {
+                        window.location.href = 'painel-voluntario.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+
+                } else {
+                    const errorData = await response.json();
+                    alert('Erro no login/registro VolunTech: ' + (errorData.message || 'Erro desconhecido.'));
+                    console.error('Erro do backend PHP:', errorData);
+                }
+            } catch (error) {
+                console.error('Erro na requisição para o backend:', error);
+                alert('Ocorreu um erro de conexão com o servidor. Tente novamente mais tarde.');
+            }
+        }
+    </script>
+</body>
+</html>

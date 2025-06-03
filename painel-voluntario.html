@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Meu Painel</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="encontrar-oportunidades.html">Oportunidades</a></li>
+                    <li><a href="login.html" id="nav-login-link">Login</a></li>
+                    <li class="hidden" id="nav-logout-link"><a href="#" onclick="logout()">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="volunteer-dashboard" class="dashboard-section">
+            <div class="container">
+                <h2 id="welcome-message">Bem-vindo(a), Voluntário(a)!</h2>
+
+                <div class="dashboard-controls">
+                    <a href="encontrar-oportunidades.html" class="btn-primary-small">Buscar Novas Oportunidades</a>
+                    <a href="perfil-voluntario.html" class="btn-secondary-small">Editar Meu Perfil</a>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-card applications-card">
+                        <h3>Minhas Candidaturas</h3>
+                        <div id="applications-list">
+                            <div class="application-item skeleton-text skeleton-long"></div>
+                            <div class="application-item skeleton-text skeleton-medium"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card certificates-card">
+                        <h3>Meus Certificados</h3>
+                        <div id="certificates-list">
+                            <div class="certificate-item skeleton-text skeleton-long"></div>
+                            <div class="certificate-item skeleton-text skeleton-medium"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card ranking-card">
+                        <h3>Meu Ranking</h3>
+                        <div id="ranking-info">
+                            <div class="skeleton-text skeleton-title"></div>
+                            <div class="skeleton-text skeleton-medium"></div>
+                        </div>
+                        <p>Sua Posição: <span id="my-rank-position">--</span></p>
+                        <p>Pontuação: <span id="my-score">--</span></p>
+                        <a href="ranking-completo.html" class="btn-secondary-small">Ver Ranking Completo</a>
+                    </div>
+                </div>
+
+                <div id="not-logged-in-message" class="error-message hidden">
+                    Você precisa estar logado como **Voluntário** para acessar este painel. 
+                    <a href="login.html">Faça login aqui</a>.
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userType');
+            alert('Você foi desconectado(a).');
+            window.location.href = 'index.html'; // Redireciona para a página inicial
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = localStorage.getItem('userId');
+            const userType = localStorage.getItem('userType');
+            const welcomeMessage = document.getElementById('welcome-message');
+            const applicationsList = document.getElementById('applications-list'); // Renomeei de applicationsList para myApplicationsList para clareza
+            const certificatesList = document.getElementById('certificates-list'); // Renomeei de certificatesList para myCertificatesList para clareza
+            const rankingInfo = document.getElementById('ranking-info');
+            const myRankPosition = document.getElementById('my-rank-position'); // Adicionado
+            const myScore = document.getElementById('my-score'); // Adicionado
+            const notLoggedInMessage = document.getElementById('not-logged-in-message');
+            const navLoginLink = document.getElementById('nav-login-link');
+            const navLogoutLink = document.getElementById('nav-logout-link');
+
+            // Atualiza links de navegação baseado no login
+            if (userId && userType === 'voluntario') {
+                navLoginLink.classList.add('hidden');
+                navLogoutLink.classList.remove('hidden');
+            } else {
+                navLoginLink.classList.remove('hidden');
+                navLogoutLink.classList.add('hidden');
+            }
+
+
+            // 1. Verificar se o usuário está logado e é um voluntário
+            if (!userId || userType !== 'voluntario') {
+                document.getElementById('volunteer-dashboard').classList.add('hidden'); // Esconde o painel inteiro
+                notLoggedInMessage.classList.remove('hidden');
+                return; // Para o script aqui se não estiver logado como voluntário
+            }
+
+            // Se estiver logado como voluntário, mostra o painel e personaliza a mensagem
+            document.getElementById('volunteer-dashboard').classList.remove('hidden');
+            // Mock para o nome do usuário (no futuro viria de uma API de perfil)
+            welcomeMessage.textContent = `Bem-vindo(a), Voluntário(a) ${userId}!`; // Idealmente o nome real
+
+            // 2. Carregar Candidaturas (agora com opção de certificado)
+            async function loadApplications() {
+                applicationsList.innerHTML = `
+                    <div class="application-item skeleton-text skeleton-long"></div>
+                    <div class="application-item skeleton-text skeleton-medium"></div>
+                `;
+                try {
+                    // Simular delay de rede
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    // No futuro: await fetch(`/api/voluntarios/${userId}/candidaturas`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } });
+                    const mockApplications = [
+                        { id: 101, oportunidade_titulo: "Aulas de Reforço para Crianças", status: "Pendente", ong_nome: "ONG Saber Melhor", id_oportunidade: 1 },
+                        { id: 103, oportunidade_titulo: "Campanha de Doação de Sangue", status: "Aceita", ong_nome: "Mãos que Curam", id_oportunidade: 3 },
+                        { id: 104, oportunidade_titulo: "Suporte Digital para Idosos", status: "Recusada", ong_nome: "Melhor Idade Digital", id_oportunidade: 5 },
+                        { id: 105, oportunidade_titulo: "Organização de Evento Beneficente", status: "Concluida", ong_nome: "Ações do Bem", id_oportunidade: 6 } // Adicionado para teste de certificado
+                    ];
+
+                    applicationsList.innerHTML = ''; // Limpa esqueletos
+                    if (mockApplications.length === 0) {
+                        applicationsList.innerHTML = '<p>Você ainda não se candidatou a nenhuma oportunidade.</p>';
+                    } else {
+                        mockApplications.forEach(app => {
+                            const appDiv = document.createElement('div');
+                            appDiv.className = `application-item application-status-${app.status.toLowerCase()}`;
+                            appDiv.innerHTML = `
+                                <div class="application-info">
+                                    <strong>${app.oportunidade_titulo}</strong><br>
+                                    <span>ONG: ${app.ong_nome}</span><br>
+                                    <span>Status: <span class="status-badge status-${app.status.toLowerCase()}">${app.status}</span></span>
+                                </div>
+                                <div class="application-actions">
+                                    <a href="detalhes-oportunidade.html?id=${app.id_oportunidade}" class="btn-secondary-small">Ver Detalhes</a>
+                                    ${app.status === 'Concluida' ? `
+                                        <button class="btn-primary-small request-certificate-btn" 
+                                                data-application-id="${app.id}" 
+                                                data-opportunity-id="${app.id_oportunidade}">Receber Certificado</button>
+                                        <div id="certificate-message-${app.id}" class="certificate-message hidden"></div>
+                                    ` : ''}
+                                </div>
+                            `;
+                            applicationsList.appendChild(appDiv);
+                        });
+
+                        // Adicionar event listeners para os botões de certificado
+                        document.querySelectorAll('.request-certificate-btn').forEach(button => {
+                            button.addEventListener('click', async (event) => {
+                                const applicationId = event.target.dataset.applicationId;
+                                const opportunityId = event.target.dataset.opportunityId;
+                                const certificateMessageDiv = document.getElementById(`certificate-message-${applicationId}`);
+
+                                certificateMessageDiv.classList.remove('hidden', 'success', 'error');
+                                certificateMessageDiv.textContent = 'Solicitando certificado...';
+                                certificateMessageDiv.classList.add('info');
+
+                                try {
+                                    // Simular delay da API de certificado
+                                    await new Promise(resolve => setTimeout(resolve, 1500));
+
+                                    // No futuro: Chamar sua API para enviar o certificado por e-mail
+                                    // Endpoint: POST /api/certificados/enviar-email (ou similar)
+                                    const response = await fetch('/api/certificados/enviar-email', { // ou /api/certificados/gerar-e-enviar
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${localStorage.getItem('authToken')}` // O voluntário precisa estar autenticado
+                                        },
+                                        body: JSON.stringify({ 
+                                            id_voluntario: userId, 
+                                            id_oportunidade: opportunityId,
+                                            id_candidatura: applicationId // Pode ser útil para rastrear
+                                        })
+                                    });
+
+                                    if (response.ok) {
+                                        certificateMessageDiv.textContent = 'Certificado enviado para seu e-mail!';
+                                        certificateMessageDiv.classList.add('success');
+                                        // Opcional: desabilitar o botão após o envio
+                                        event.target.disabled = true;
+                                    } else {
+                                        const errorData = await response.json();
+                                        certificateMessageDiv.textContent = 'Erro ao enviar certificado: ' + (errorData.message || 'Tente novamente.');
+                                        certificateMessageDiv.classList.add('error');
+                                        console.error('Erro ao enviar certificado:', errorData);
+                                    }
+                                } catch (error) {
+                                    console.error('Erro na requisição de certificado:', error);
+                                    certificateMessageDiv.textContent = 'Ocorreu um erro de conexão. Tente novamente mais tarde.';
+                                    certificateMessageDiv.classList.add('error');
+                                }
+                            });
+                        });
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar minhas candidaturas:', error);
+                    applicationsList.innerHTML = '<p class="error-message-small">Erro ao carregar suas candidaturas.</p>';
+                }
+            }
+
+            // 3. Carregar Certificados (esta seção permanece, mas o foco é no botão da candidatura concluída)
+            async function loadCertificates() {
+                certificatesList.innerHTML = `
+                    <div class="certificate-item skeleton-text skeleton-long"></div>
+                    <div class="certificate-item skeleton-text skeleton-medium"></div>
+                `;
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    // No futuro: await fetch(`/api/voluntarios/${userId}/certificados`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } });
+                    const mockCertificates = [
+                        // Se você quiser que o voluntário veja certificados já emitidos aqui
+                        { id: 1, titulo: "Certificado de Participação - Aulas de Reforço", data_emissao: "2024-12-15", link_download: "#" },
+                        { id: 2, titulo: "Certificado de Mérito - Mutirão de Limpeza", data_emissao: "2024-10-20", link_download: "#" }
+                    ];
+
+                    certificatesList.innerHTML = '';
+                    if (mockCertificates.length === 0) {
+                        certificatesList.innerHTML = '<p>Nenhum certificado emitido ainda.</p>';
+                    } else {
+                        mockCertificates.forEach(cert => {
+                            const certDiv = document.createElement('div');
+                            certDiv.className = 'certificate-item';
+                            certDiv.innerHTML = `
+                                <p><strong>${cert.titulo}</strong></p>
+                                <p>Emitido em: ${new Date(cert.data_emissao).toLocaleDateString('pt-BR')}</p>
+                                <a href="${cert.link_download}" class="btn-primary-small download-btn" download>Baixar Certificado</a>
+                            `;
+                            certificatesList.appendChild(certDiv);
+                        });
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar certificados:', error);
+                    certificatesList.innerHTML = '<p class="error-message-small">Erro ao carregar certificados.</p>';
+                }
+            }
+
+            // 4. Carregar Ranking
+            async function loadRanking() {
+                // Renomeado rankingInfo.innerHTML para refletir que as spans já existem
+                const rankingInfoContainer = document.getElementById('ranking-info');
+                rankingInfoContainer.innerHTML = `
+                    <div class="skeleton-text skeleton-title"></div>
+                    <div class="skeleton-text skeleton-medium"></div>
+                `;
+                try {
+                    await new Promise(resolve => setTimeout(resolve, 700));
+                    // No futuro: await fetch(`/api/ranking/voluntario/${userId}`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` } });
+                    // Ou se for um ranking global, buscar e destacar o do usuário
+                    const mockRanking = {
+                        posicao: 5,
+                        pontos: 120,
+                        total_voluntarios: 150
+                    };
+
+                    // Atualiza as spans existentes
+                    myRankPosition.textContent = `${mockRanking.posicao}º`;
+                    myScore.textContent = `${mockRanking.pontos}`;
+                    // Limpa esqueletos após carregar dados
+                    rankingInfoContainer.innerHTML = '';
+                    // Você pode adicionar mais elementos se quiser, mas as spans já estão fora do rankingInfo no HTML
+                    // Se a sua intenção era que os textos 'Sua Posição...' fossem gerados, ajuste o HTML e este bloco.
+                    // Para o seu HTML atual, manter as spans no HTML e só atualizar o textContent é mais direto.
+
+                } catch (error) {
+                    console.error('Erro ao carregar ranking:', error);
+                    // Atualiza as spans para indicar erro
+                    myRankPosition.textContent = 'N/A';
+                    myScore.textContent = 'N/A';
+                    // Ou se preferir, pode exibir uma mensagem de erro na div rankingInfoContainer
+                    // rankingInfoContainer.innerHTML = '<p class="error-message-small">Erro ao carregar ranking.</p>';
+                }
+            }
+
+            // Carregar todos os dados ao iniciar o painel
+            loadApplications();
+            loadCertificates(); // Mantenha se quiser a seção de certificados já emitidos
+            loadRanking();
+        });
+    </script>

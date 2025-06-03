@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Encontre uma Oportunidade</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li> 
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="opportunities-list" class="opportunities-section">
+            <div class="container">
+                <h2>Encontre sua Oportunidade de Voluntariado</h2>
+                <p>Navegue pelas oportunidades disponíveis e faça a diferença!</p>
+
+                <div class="filter-bar">
+                    <input type="text" id="search-input" placeholder="Pesquisar por título, local ou habilidade...">
+                    <select id="filter-area">
+                        <option value="">Todas as Áreas</option>
+                        <option value="Educação">Educação</option>
+                        <option value="Saúde">Saúde</option>
+                        <option value="Meio Ambiente">Meio Ambiente</option>
+                        <option value="Animal">Proteção Animal</option>
+                        <option value="Comunitário">Desenvolvimento Comunitário</option>
+                        </select>
+                    <button id="search-button" class="btn-primary-small">Buscar</button>
+                </div>
+
+                <div id="opportunities-container" class="opportunity-grid">
+                    <div class="opportunity-card skeleton">
+                        <h3>Carregando Oportunidades...</h3>
+                        <p class="skeleton-text"></p>
+                        <p class="skeleton-text"></p>
+                    </div>
+                    <div class="opportunity-card skeleton">
+                        <h3></h3>
+                        <p class="skeleton-text"></p>
+                        <p class="skeleton-text"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const opportunitiesContainer = document.getElementById('opportunities-container');
+            const searchInput = document.getElementById('search-input');
+            const filterArea = document.getElementById('filter-area');
+            const searchButton = document.getElementById('search-button');
+
+            // Função para carregar oportunidades (simulando uma API)
+            async function loadOpportunities(query = '', area = '') {
+                opportunitiesContainer.innerHTML = `
+                    <div class="opportunity-card skeleton"><h3></h3><p class="skeleton-text"></p><p class="skeleton-text"></p></div>
+                    <div class="opportunity-card skeleton"><h3></h3><p class="skeleton-text"></p><p class="skeleton-text"></p></div>
+                `; // Mostrar esqueletos de carregamento
+
+                try {
+                    // Substitua esta URL pelo seu endpoint real: GET /api/oportunidades
+                    // Se você tiver parâmetros de busca/filtro, adicione-os aqui:
+                    // Ex: /api/oportunidades?q=${query}&area=${area}
+                    const response = await fetch('/api/oportunidades'); 
+                    // Simulando um delay de rede
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    if (!response.ok) {
+                        throw new Error('Erro ao carregar oportunidades.');
+                    }
+                    const opportunities = await response.json();
+                    
+                    // Dados fictícios para demonstração, remova quando integrar com a API real
+                    const mockOpportunities = [
+                        { id: 1, titulo: "Aulas de Reforço para Crianças", descricao: "Ajude crianças do ensino fundamental com tarefas e estudos de português e matemática.", local: "Cuiabá - Centro Comunitário", requisitos: "Gosto por crianças, Paciência, Conhecimento básico de matérias escolares", duracao: "6 meses", area_atuacao: "Educação", ong_nome: "ONG Saber Melhor" },
+                        { id: 2, titulo: "Limpeza de Parques Urbanos", descricao: "Participe de mutirões mensais para manter nossos parques limpos e agradáveis.", local: "Parque das Águas, Cuiabá", requisitos: "Disposição física, Proatividade, Amor pela natureza", duracao: "Evento mensal", area_atuacao: "Meio Ambiente", ong_nome: "Verde Cuiabá" },
+                        { id: 3, titulo: "Campanha de Doação de Sangue", descricao: "Apoie na organização e divulgação de nossa campanha de doação de sangue no hospital local.", local: "Hospital Universitário, Cuiabá", requisitos: "Organização, Boa comunicação, Simpatia", duracao: "Evento de 1 dia", area_atuacao: "Saúde", ong_nome: "Mãos que Curam" },
+                        { id: 4, titulo: "Ajuda em Abrigo de Animais", descricao: "Cuide de animais, limpe canis e ajude na socialização de cães e gatos resgatados.", local: "Abrigo Patas Amigas, Várzea Grande", requisitos: "Amor por animais, Responsabilidade, Disponibilidade aos fins de semana", duracao: "Permanente", area_atuacao: "Proteção Animal", ong_nome: "Patas Amigas" },
+                        { id: 5, titulo: "Suporte Digital para Idosos", descricao: "Ajude idosos a navegar na internet, usar aplicativos de mensagens e fazer videochamadas com a família.", local: "Centro do Idoso, Cuiabá", requisitos: "Paciência, Conhecimento básico de tecnologia, Boa didática", duracao: "3 meses", area_atuacao: "Educação", ong_nome: "Melhor Idade Digital" },
+                        { id: 6, titulo: "Organização de Eventos Sociais", descricao: "Apoie na logística e execução de eventos para arrecadação de fundos e conscientização.", local: "Cuiabá - Vários locais", requisitos: "Organização de eventos, Criatividade, Trabalho em equipe", duracao: "Vários eventos", area_atuacao: "Comunitário", ong_nome: "Ações do Bem" }
+                    ];
+
+                    // Filtrar os mockOpportunities com base na query e área (apenas para demonstração)
+                    const filteredOpportunities = mockOpportunities.filter(opp => {
+                        const matchesQuery = !query || 
+                                             opp.titulo.toLowerCase().includes(query.toLowerCase()) ||
+                                             opp.descricao.toLowerCase().includes(query.toLowerCase()) ||
+                                             opp.local.toLowerCase().includes(query.toLowerCase()) ||
+                                             opp.requisitos.toLowerCase().includes(query.toLowerCase());
+                        const matchesArea = !area || opp.area_atuacao.toLowerCase() === area.toLowerCase();
+                        return matchesQuery && matchesArea;
+                    });
+
+
+                    displayOpportunities(filteredOpportunities); // Use filteredOpportunities
+                } catch (error) {
+                    console.error('Erro ao carregar oportunidades:', error);
+                    opportunitiesContainer.innerHTML = '<p class="error-message">Não foi possível carregar as oportunidades. Tente novamente mais tarde.</p>';
+                }
+            }
+
+            // Função para exibir as oportunidades no HTML
+            function displayOpportunities(opportunities) {
+                opportunitiesContainer.innerHTML = ''; // Limpa o container
+                if (opportunities.length === 0) {
+                    opportunitiesContainer.innerHTML = '<p class="no-results">Nenhuma oportunidade encontrada com os critérios de busca.</p>';
+                    return;
+                }
+
+                opportunities.forEach(opportunity => {
+                    const card = document.createElement('div');
+                    card.className = 'opportunity-card';
+                    card.innerHTML = `
+                        <h3>${opportunity.titulo}</h3>
+                        <p class="ong-name">ONG: ${opportunity.ong_nome || 'Não Informado'}</p>
+                        <p>${opportunity.descricao.substring(0, 150)}...</p>
+                        <p><strong>Local:</strong> ${opportunity.local}</p>
+                        <p><strong>Duração:</strong> ${opportunity.duracao}</p>
+                        <p><strong>Requisitos:</strong> ${opportunity.requisitos}</p>
+                        <button class="btn-primary-small apply-button" data-opportunity-id="${opportunity.id}">Candidatar-se</button>
+                    `;
+                    opportunitiesContainer.appendChild(card);
+                });
+
+                // Adicionar evento de clique para os botões "Candidatar-se"
+                document.querySelectorAll('.apply-button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const opportunityId = event.target.dataset.opportunityId;
+                        // Aqui você chamaria a função para candidatar-se ou redirecionaria
+                        alert(`Você clicou para se candidatar à oportunidade ID: ${opportunityId}! (Funcionalidade a ser implementada)`);
+                        // No futuro: redirecionar para a página de candidatura ou enviar API
+                        // window.location.href = `candidatar.html?oportunidade=${opportunityId}`;
+                    });
+                });
+            }
+
+            // Event Listeners para busca e filtro
+            searchButton.addEventListener('click', () => {
+                const query = searchInput.value;
+                const area = filterArea.value;
+                loadOpportunities(query, area);
+            });
+
+            // Carregar oportunidades ao carregar a página
+            loadOpportunities();
+        });
+    </script>
+</body>
+</html>

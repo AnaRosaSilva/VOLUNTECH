@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Detalhes da Oportunidade</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="opportunity-details-section" class="details-section">
+            <div class="container">
+                <div id="opportunity-content" class="opportunity-details-card">
+                    <div class="skeleton-text skeleton-title"></div>
+                    <div class="skeleton-text skeleton-ong-name"></div>
+                    <div class="skeleton-text skeleton-description"></div>
+                    <div class="skeleton-text skeleton-description-line"></div>
+                    <div class="skeleton-text skeleton-info"></div>
+                    <div class="skeleton-text skeleton-info"></div>
+                    <div class="skeleton-text skeleton-info"></div>
+                    <div class="skeleton-button skeleton-text"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const opportunitiesContainer = document.getElementById('opportunities-container');
+            const searchInput = document.getElementById('search-input');
+            const filterArea = document.getElementById('filter-area');
+            const searchButton = document.getElementById('search-button');
+
+            // Mock de dados para simular a resposta da API (REMOVER QUANDO INTEGRAR COM O BACKEND)
+            // Este é o mesmo mock que você já tem, só copiei para ficar tudo junto no script.
+            const mockOpportunities = [
+                { id: 1, titulo: "Aulas de Reforço para Crianças", descricao: "Ajude crianças do ensino fundamental com tarefas e estudos de português e matemática.", local: "Cuiabá - Centro Comunitário", requisitos: "Gosto por crianças, Paciência, Conhecimento básico de matérias escolares", duracao: "6 meses", area_atuacao: "Educação", ong_nome: "ONG Saber Melhor" },
+                { id: 2, titulo: "Limpeza de Parques Urbanos", descricao: "Participe de mutirões mensais para manter nossos parques limpos e agradáveis.", local: "Parque das Águas, Cuiabá", requisitos: "Disposição física, Proatividade, Amor pela natureza", duracao: "Evento mensal", area_atuacao: "Meio Ambiente", ong_nome: "Verde Cuiabá" },
+                { id: 3, titulo: "Campanha de Doação de Sangue", descricao: "Apoie na organização e divulgação de nossa campanha de doação de sangue no hospital local.", local: "Hospital Universitário, Cuiabá", requisitos: "Organização, Boa comunicação, Simpatia", duracao: "Evento de 1 dia", area_atuacao: "Saúde", ong_nome: "Mãos que Curam" },
+                { id: 4, titulo: "Ajuda em Abrigo de Animais", descricao: "Cuide de animais, limpe canis e ajude na socialização de cães e gatos resgatados.", local: "Abrigo Patas Amigas, Várzea Grande", requisitos: "Amor por animais, Responsabilidade, Disponibilidade aos fins de semana", duracao: "Permanente", area_atuacao: "Proteção Animal", ong_nome: "Patas Amigas" },
+                { id: 5, titulo: "Suporte Digital para Idosos", descricao: "Ajude idosos a navegar na internet, usar aplicativos de mensagens e fazer videochamadas com a família.", local: "Centro do Idoso, Cuiabá", requisitos: "Paciência, Conhecimento básico de tecnologia, Boa didática", duracao: "3 meses", area_atuacao: "Educação", ong_nome: "Melhor Idade Digital" },
+                { id: 6, titulo: "Organização de Eventos Sociais", descricao: "Apoie na logística e execução de eventos para arrecadação de fundos e conscientização.", local: "Cuiabá - Vários locais", requisitos: "Organização de eventos, Criatividade, Trabalho em equipe", duracao: "Vários eventos", area_atuacao: "Comunitário", ong_nome: "Ações do Bem" }
+            ];
+            // FIM DO MOCK DE DADOS
+
+            // Função para carregar e filtrar oportunidades
+            async function loadOpportunities(query = '', area = '') {
+                // Mostrar esqueletos de carregamento
+                opportunitiesContainer.innerHTML = `
+                    <div class="opportunity-card skeleton"><h3></h3><p class="skeleton-text"></p><p class="skeleton-text"></p></div>
+                    <div class="opportunity-card skeleton"><h3></h3><p class="skeleton-text"></p><p class="skeleton-text"></p></div>
+                `;
+
+                try {
+                    // Simulando um delay de rede para ver o efeito de carregamento
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    // No futuro, aqui você faria a chamada real à sua API:
+                    // const response = await fetch(`/api/oportunidades?q=${query}&area=${area}`);
+                    // if (!response.ok) {
+                    //     throw new Error('Erro ao carregar oportunidades.');
+                    // }
+                    // const opportunities = await response.json();
+
+                    // Usando dados mockados e aplicando o filtro (apenas para demonstração frontend)
+                    const filteredOpportunities = mockOpportunities.filter(opp => {
+                        const matchesQuery = !query ||
+                                            opp.titulo.toLowerCase().includes(query.toLowerCase()) ||
+                                            opp.descricao.toLowerCase().includes(query.toLowerCase()) ||
+                                            opp.local.toLowerCase().includes(query.toLowerCase()) ||
+                                            opp.requisitos.toLowerCase().includes(query.toLowerCase());
+                        const matchesArea = !area || opp.area_atuacao.toLowerCase() === area.toLowerCase();
+                        return matchesQuery && matchesArea;
+                    });
+
+                    displayOpportunities(filteredOpportunities);
+
+                } catch (error) {
+                    console.error('Erro ao carregar oportunidades:', error);
+                    opportunitiesContainer.innerHTML = '<p class="error-message">Não foi possível carregar as oportunidades. Tente novamente mais tarde.</p>';
+                }
+            }
+
+            // Função para exibir as oportunidades no HTML
+            function displayOpportunities(opportunities) {
+                opportunitiesContainer.innerHTML = ''; // Limpa o container
+                if (opportunities.length === 0) {
+                    opportunitiesContainer.innerHTML = '<p class="no-results">Nenhuma oportunidade encontrada com os critérios de busca.</p>';
+                    return;
+                }
+
+                opportunities.forEach(opportunity => {
+                    const cardLink = document.createElement('a'); // Cria um link para envolver o card
+                    cardLink.href = `detalhes-oportunidade.html?id=${opportunity.id}`; // Define o destino do link
+                    cardLink.className = 'opportunity-card-link'; // Classe para estilização (removendo sublinhado etc.)
+
+                    const card = document.createElement('div');
+                    card.className = 'opportunity-card';
+                    card.innerHTML = `
+                        <h3>${opportunity.titulo}</h3>
+                        <p class="ong-name">ONG: ${opportunity.ong_nome || 'Não Informado'}</p>
+                        <p>${opportunity.descricao.substring(0, 150)}...</p>
+                        <p><strong>Local:</strong> ${opportunity.local}</p>
+                        <p><strong>Duração:</strong> ${opportunity.duracao}</p>
+                        <p><strong>Requisitos:</strong> ${opportunity.requisitos}</p>
+                        <button class="btn-primary-small apply-button">Ver Detalhes</button>
+                    `;
+
+                    // Adiciona um listener para o clique do botão "Ver Detalhes"
+                    // Ele impede que o clique no botão ative o link do card e redireciona
+                    card.querySelector('.apply-button').addEventListener('click', (event) => {
+                        event.preventDefault(); // Impede o comportamento padrão do link do card
+                        window.location.href = `detalhes-oportunidade.html?id=${opportunity.id}`; // Redireciona para a página de detalhes
+                    });
+
+                    cardLink.appendChild(card); // Insere o card dentro do link
+                    opportunitiesContainer.appendChild(cardLink); // Adiciona o link (com o card dentro) ao container
+                });
+            }
+
+            // Event Listeners para busca e filtro
+            searchButton.addEventListener('click', () => {
+                const query = searchInput.value;
+                const area = filterArea.value;
+                loadOpportunities(query, area);
+            });
+
+            // Carregar oportunidades ao carregar a página (primeira vez)
+            loadOpportunities();
+        });
+</script>
+</body>
+</html>

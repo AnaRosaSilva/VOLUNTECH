@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Contato</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li> 
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="contact-us" class="form-section">
+            <div class="container">
+                <h2>Fale Conosco</h2>
+                <p>Tem alguma dúvida, sugestão ou precisa de suporte? Envie-nos uma mensagem e retornaremos o mais breve possível.</p>
+
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="nome_contato">Seu Nome:</label>
+                        <input type="text" id="nome_contato" name="nome_contato" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email_contato">Seu E-mail:</label>
+                        <input type="email" id="email_contato" name="email_contato" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="assunto">Assunto:</label>
+                        <input type="text" id="assunto" name="assunto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mensagem">Sua Mensagem:</label>
+                        <textarea id="mensagem" name="mensagem" rows="6" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Enviar Mensagem</button>
+                </form>
+
+                <div class="contact-info">
+                    <h3>Ou entre em contato direto:</h3>
+                    <p><strong>E-mail:</strong> <a href="mailto:contato@voluntech.com.br">contato@voluntech.com.br</a></p>
+                    <p><strong>Telefone:</strong> <a href="tel:+5565987654321">(65) 98765-4321</a></p>
+                    <p><strong>Horário de Atendimento:</strong> Segunda a Sexta, das 9h às 18h (Horário de Cuiabá)</p>
+                    <p><strong>Endereço:</strong> Rua da Solidariedade, 123 - Centro, Cuiabá - MT</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            // Coleta dos dados do formulário
+            const formData = {
+                nome: document.getElementById('nome_contato').value,
+                email: document.getElementById('email_contato').value,
+                assunto: document.getElementById('assunto').value,
+                mensagem: document.getElementById('mensagem').value
+            };
+
+            // Idealmente, este formulário enviaria os dados para um serviço de backend
+            // ou um serviço de e-mail (como SendGrid, EmailJS, conforme sua lista de APIs externas)
+            // Aqui é apenas uma simulação de sucesso.
+            alert('Mensagem enviada com sucesso! Em breve entraremos em contato.');
+            console.log('Dados do contato:', formData);
+
+            // Resetar o formulário
+            this.reset();
+            // REDIRECIONA PARA A PÁGINA DE OBRIGADO COM O TIPO CORRETO
+                    window.location.href = 'obrigado.html?type=contato';
+        });
+    </script>
+</body>
+</html>

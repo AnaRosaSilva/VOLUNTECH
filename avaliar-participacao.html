@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Avaliar Participação</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos específicos para a página de avaliação */
+        .evaluation-section {
+            padding: 50px 0;
+            background-color: var(--background-color);
+            text-align: center;
+        }
+
+        .evaluation-section .container {
+            max-width: 700px;
+        }
+
+        .evaluation-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .evaluation-section p {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        .evaluation-form .form-group {
+            margin-bottom: 20px;
+            text-align: left; /* Alinhar labels e campos à esquerda */
+        }
+
+        .evaluation-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .evaluation-form input[type="number"],
+        .evaluation-form textarea {
+            width: calc(100% - 20px); /* Ajusta para padding */
+            padding: 10px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box; /* Inclui padding na largura total */
+        }
+
+        .evaluation-form textarea {
+            resize: vertical; /* Permite redimensionar verticalmente */
+            min-height: 100px;
+        }
+
+        /* Estilos para o sistema de estrelas (se for implementado visualmente) */
+        .stars {
+            display: flex;
+            justify-content: flex-start; /* Alinhar estrelas à esquerda */
+            direction: rtl; /* Inverte a ordem para facilitar o CSS */
+            font-size: 2rem;
+            margin-top: 10px;
+        }
+
+        .stars input[type="radio"] {
+            display: none;
+        }
+
+        .stars label {
+            color: #DDD; /* Estrela cinza (vazia) */
+            cursor: pointer;
+            transition: color 0.2s;
+            margin-right: 5px; /* Espaço entre as estrelas */
+        }
+
+        .stars label:hover,
+        .stars label:hover ~ label,
+        .stars input[type="radio"]:checked ~ label {
+            color: #FFD700; /* Estrela dourada (preenchida) */
+        }
+
+        .stars label:hover ~ label {
+            color: #FFD700; /* As estrelas anteriores também ficam douradas ao passar o mouse */
+        }
+
+        .evaluation-form .btn-primary {
+            margin-top: 30px;
+        }
+
+        .evaluation-section.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="encontrar-oportunidades.html">Oportunidades</a></li>
+                    <li><a href="login.html" id="nav-login-link">Login</a></li>
+                    <li class="hidden" id="nav-logout-link"><a href="#" onclick="logout()">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="evaluation-section" class="evaluation-section hidden">
+            <div class="container">
+                <h2 id="evaluation-title">Avaliar Participação</h2>
+                <p id="evaluation-description">Avalie a participação do(a) voluntário(a) **<span id="voluntario-nome"></span>** na oportunidade **<span id="oportunidade-titulo"></span>**.</p>
+
+                <form id="evaluationForm" class="evaluation-form">
+                    <div class="form-group">
+                        <label for="nota">Nota (1-5 estrelas):</label>
+                        <div class="stars">
+                            <input type="radio" id="star5" name="nota" value="5" required><label for="star5">★</label>
+                            <input type="radio" id="star4" name="nota" value="4"><label for="star4">★</label>
+                            <input type="radio" id="star3" name="nota" value="3"><label for="star3">★</label>
+                            <input type="radio" id="star2" name="nota" value="2"><label for="star2">★</label>
+                            <input type="radio" id="star1" name="nota" value="1"><label for="star1">★</label>
+                        </div>
+                        </div>
+
+                    <div class="form-group">
+                        <label for="comentario">Comentários (opcional):</label>
+                        <textarea id="comentario" name="comentario" rows="5" placeholder="Deixe um comentário sobre a participação do voluntário."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Enviar Avaliação</button>
+
+                    <div id="message" class="info-message hidden"></div>
+                </form>
+            </div>
+        </section>
+
+        <div id="loading-message" class="loading-animation">Carregando informações da avaliação...</div>
+        <div id="not-logged-in-message" class="error-message hidden">
+            Você precisa estar logado como **ONG** para avaliar voluntários. 
+            <a href="login.html">Faça login aqui</a>.
+        </div>
+        <div id="missing-params-message" class="error-message hidden">
+            Informações necessárias para avaliação não encontradas na URL.
+            <a href="painel-ong.html">Voltar ao Painel da ONG</a>.
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userType');
+            alert('Você foi desconectado(a).');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = localStorage.getItem('userId'); // ID da ONG logada
+            const userType = localStorage.getItem('userType');
+            const authToken = localStorage.getItem('authToken');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const candidaturaId = urlParams.get('candidaturaId');
+            const voluntarioId = urlParams.get('voluntarioId');
+            const oportunidadeId = urlParams.get('oportunidadeId');
+            const voluntarioNome = urlParams.get('voluntarioNome'); // Nome do voluntário, opcional para exibição
+            const oportunidadeTitulo = urlParams.get('oportunidadeTitulo'); // Título da oportunidade, opcional para exibição
+
+            const evaluationSection = document.getElementById('evaluation-section');
+            const loadingMessage = document.getElementById('loading-message');
+            const notLoggedInMessage = document.getElementById('not-logged-in-message');
+            const missingParamsMessage = document.getElementById('missing-params-message');
+            const messageDiv = document.getElementById('message');
+
+            const voluntarioNomeSpan = document.getElementById('voluntario-nome');
+            const oportunidadeTituloSpan = document.getElementById('oportunidade-titulo');
+
+            const navLoginLink = document.getElementById('nav-login-link');
+            const navLogoutLink = document.getElementById('nav-logout-link');
+
+            // Atualiza links de navegação
+            if (authToken) {
+                navLoginLink.classList.add('hidden');
+                navLogoutLink.classList.remove('hidden');
+            } else {
+                navLoginLink.classList.remove('hidden');
+                navLogoutLink.classList.add('hidden');
+            }
+
+            // 1. Verificação de Acesso e Parâmetros
+            if (!userId || userType !== 'ong' || !authToken) {
+                evaluationSection.classList.add('hidden');
+                loadingMessage.classList.add('hidden');
+                notLoggedInMessage.classList.remove('hidden');
+                return;
+            }
+
+            if (!candidaturaId || !voluntarioId || !oportunidadeId) {
+                evaluationSection.classList.add('hidden');
+                loadingMessage.classList.add('hidden');
+                missingParamsMessage.classList.remove('hidden');
+                return;
+            }
+
+            // Preencher informações do voluntário e oportunidade (se disponíveis na URL)
+            if (voluntarioNome) {
+                voluntarioNomeSpan.textContent = voluntarioNome;
+            } else {
+                voluntarioNomeSpan.textContent = "Voluntário(a)"; // Fallback
+            }
+            if (oportunidadeTitulo) {
+                oportunidadeTituloSpan.textContent = oportunidadeTitulo;
+            } else {
+                oportunidadeTituloSpan.textContent = "na oportunidade"; // Fallback
+            }
+
+            evaluationSection.classList.remove('hidden');
+            loadingMessage.classList.add('hidden'); // Já carregou as informações iniciais da URL
+
+            // 2. Lidar com o Envio do Formulário de Avaliação
+            document.getElementById('evaluationForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                messageDiv.classList.remove('hidden', 'info-message', 'error-message');
+                messageDiv.textContent = 'Enviando avaliação...';
+                messageDiv.classList.add('info-message');
+
+                const nota = document.querySelector('input[name="nota"]:checked');
+                const comentario = document.getElementById('comentario').value;
+
+                if (!nota) {
+                    messageDiv.textContent = 'Por favor, selecione uma nota.';
+                    messageDiv.classList.add('error-message');
+                    return;
+                }
+
+                const evaluationData = {
+                    id_candidatura: candidaturaId,
+                    id_voluntario: voluntarioId,
+                    id_oportunidade: oportunidadeId,
+                    id_ong: userId, // ID da ONG logada
+                    nota: parseInt(nota.value),
+                    comentario: comentario
+                };
+
+                try {
+                    // Chamar sua API para enviar a avaliação
+                    // Endpoint: POST /api/avaliacoes
+                    const response = await fetch('/api/avaliacoes', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify(evaluationData)
+                    });
+
+                    if (response.ok) {
+                        messageDiv.textContent = 'Avaliação enviada com sucesso!';
+                        messageDiv.classList.add('info-message');
+                        // Opcional: Limpar o formulário ou redirecionar
+                        document.getElementById('evaluationForm').reset();
+                        setTimeout(() => {
+                            window.location.href = 'painel-ong.html'; // Redireciona de volta para o painel da ONG
+                        }, 2000);
+                    } else {
+                        const errorData = await response.json();
+                        messageDiv.textContent = 'Erro ao enviar avaliação: ' + (errorData.message || 'Tente novamente.');
+                        messageDiv.classList.add('error-message');
+                        console.error('Erro ao enviar avaliação:', errorData);
+                    }
+                } catch (error) {
+                    console.error('Erro na requisição de avaliação:', error);
+                    messageDiv.textContent = 'Ocorreu um erro de conexão. Tente novamente mais tarde.';
+                    messageDiv.classList.add('error-message');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolunTech - Perfil da ONG</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos adicionais para os campos de perfil, se necessário */
+        .profile-section .form-group small {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Estilo para quando a seção está escondida */
+        .profile-section.hidden {
+            display: none;
+        }
+
+        .edit-profile-btn {
+            margin-top: 20px;
+        }
+
+        /* Esqueletos de carregamento para perfil */
+        .skeleton-profile-field {
+            height: 1.5em;
+            width: 80%;
+            margin-bottom: 15px;
+        }
+        .skeleton-profile-textarea {
+            height: 5em;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro-ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro-voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="encontrar-oportunidades.html">Oportunidades</a></li>
+                    <li><a href="login.html" id="nav-login-link">Login</a></li>
+                    <li class="hidden" id="nav-logout-link"><a href="#" onclick="logout()">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="ong-profile-section" class="form-section profile-section hidden">
+            <div class="container">
+                <h2>Perfil da ONG</h2>
+                <p>Visualize e edite as informações da sua organização.</p>
+
+                <form id="ongProfileForm">
+                    <div class="form-group">
+                        <label for="nome_ong">Nome da ONG:</label>
+                        <input type="text" id="nome_ong" name="nome_ong" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cnpj">CNPJ:</label>
+                        <input type="text" id="cnpj" name="cnpj" placeholder="XX.XXX.XXX/XXXX-XX" required pattern="\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}" readonly>
+                        <small>CNPJ não pode ser alterado.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email_ong">E-mail para contato:</label>
+                        <input type="email" id="email_ong" name="email_ong" required readonly>
+                        <small>E-mail não pode ser alterado.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefone_ong">Telefone para contato (com DDD):</label>
+                        <input type="tel" id="telefone_ong" name="telefone_ong" placeholder="(XX) XXXXX-XXXX" required pattern="\(\d{2}\) \d{5}-\d{4}">
+                        <small>Formato: (XX) XXXXX-XXXX</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endereco">Endereço (Rua, Número, Bairro, Cidade, Estado):</label>
+                        <input type="text" id="endereco" name="endereco" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descricao_ong">Descrição da ONG:</label>
+                        <textarea id="descricao_ong" name="descricao_ong" rows="5" placeholder="Fale um pouco sobre a missão, visão e valores da sua organização..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="area_atuacao">Área de Atuação Principal:</label>
+                        <input type="text" id="area_atuacao" name="area_atuacao" placeholder="Ex: Educação, Saúde, Meio Ambiente, Proteção Animal">
+                    </div>
+
+                    <button type="submit" class="btn-primary edit-profile-btn">Salvar Alterações</button>
+
+                    <div id="message" class="info-message hidden"></div>
+                </form>
+            </div>
+        </section>
+
+        <div id="loading-message" class="loading-animation">Carregando perfil...</div>
+        <div id="not-logged-in-message" class="error-message hidden">
+            Você precisa estar logado como **ONG** para acessar e editar seu perfil. 
+            <a href="login.html">Faça login aqui</a>.
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userType');
+            alert('Você foi desconectado(a).');
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const userId = localStorage.getItem('userId');
+            const userType = localStorage.getItem('userType');
+            const authToken = localStorage.getItem('authToken');
+
+            const profileSection = document.getElementById('ong-profile-section');
+            const loadingMessage = document.getElementById('loading-message');
+            const notLoggedInMessage = document.getElementById('not-logged-in-message');
+            const messageDiv = document.getElementById('message');
+
+            const navLoginLink = document.getElementById('nav-login-link');
+            const navLogoutLink = document.getElementById('nav-logout-link');
+
+            // Atualiza links de navegação
+            if (authToken) {
+                navLoginLink.classList.add('hidden');
+                navLogoutLink.classList.remove('hidden');
+            } else {
+                navLoginLink.classList.remove('hidden');
+                navLogoutLink.classList.add('hidden');
+            }
+
+            // 1. Verificação de Acesso
+            if (!userId || userType !== 'ong' || !authToken) {
+                profileSection.classList.add('hidden');
+                loadingMessage.classList.add('hidden');
+                notLoggedInMessage.classList.remove('hidden');
+                return;
+            }
+
+            // 2. Carregar Dados do Perfil
+            async function loadProfileData() {
+                // Mostrar esqueletos ou mensagem de carregamento
+                loadingMessage.classList.remove('hidden');
+                profileSection.classList.add('hidden');
+                messageDiv.classList.add('hidden'); // Oculta mensagens antigas
+
+                try {
+                    // Simular delay de rede
+                    await new Promise(resolve => setTimeout(resolve, 800));
+
+                    // No futuro: Chamar sua API para buscar dados do perfil da ONG
+                    const response = await fetch(`/api/ong/${userId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${authToken}` // Envia o token de autenticação
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Não foi possível carregar o perfil da ONG.');
+                    }
+                    const data = await response.json();
+
+                    // Preencher o formulário com os dados recebidos
+                    document.getElementById('nome_ong').value = data.nome_ong || '';
+                    document.getElementById('cnpj').value = data.cnpj || '';
+                    document.getElementById('email_ong').value = data.email || '';
+                    document.getElementById('telefone_ong').value = data.telefone || '';
+                    document.getElementById('endereco').value = data.endereco || '';
+                    document.getElementById('descricao_ong').value = data.descricao || '';
+                    document.getElementById('area_atuacao').value = data.area_atuacao || '';
+
+                    profileSection.classList.remove('hidden');
+                    loadingMessage.classList.add('hidden');
+
+                } catch (error) {
+                    console.error('Erro ao carregar perfil da ONG:', error);
+                    loadingMessage.classList.add('hidden');
+                    messageDiv.classList.remove('hidden');
+                    messageDiv.classList.add('error-message');
+                    messageDiv.textContent = 'Erro ao carregar seu perfil. Tente novamente mais tarde.';
+                }
+            }
+
+            // 3. Lidar com o Envio do Formulário de Edição
+            document.getElementById('ongProfileForm').addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                messageDiv.classList.remove('hidden', 'info-message', 'error-message');
+                messageDiv.textContent = 'Salvando alterações...';
+                messageDiv.classList.add('info-message');
+
+                const updatedData = {
+                    nome_ong: document.getElementById('nome_ong').value,
+                    // cnpj: document.getElementById('cnpj').value, // CNPJ é readonly
+                    // email: document.getElementById('email_ong').value, // E-mail é readonly
+                    telefone: document.getElementById('telefone_ong').value,
+                    endereco: document.getElementById('endereco').value,
+                    descricao: document.getElementById('descricao_ong').value,
+                    area_atuacao: document.getElementById('area_atuacao').value
+                };
+
+                try {
+                    // Chamar sua API para atualizar o perfil da ONG
+                    const response = await fetch(`/api/ong/${userId}`, {
+                        method: 'PUT', // Ou PATCH, dependendo da sua API
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+
+                    if (response.ok) {
+                        messageDiv.textContent = 'Perfil atualizado com sucesso!';
+                        messageDiv.classList.add('info-message');
+                        // Recarregar os dados para garantir que tudo está atualizado
+                        loadProfileData(); 
+                    } else {
+                        const errorData = await response.json();
+                        messageDiv.textContent = 'Erro ao salvar perfil: ' + (errorData.message || 'Verifique os dados e tente novamente.');
+                        messageDiv.classList.add('error-message');
+                        console.error('Erro ao atualizar perfil:', errorData);
+                    }
+                } catch (error) {
+                    console.error('Erro na requisição de atualização:', error);
+                    messageDiv.textContent = 'Ocorreu um erro de conexão. Tente novamente mais tarde.';
+                    messageDiv.classList.add('error-message');
+                }
+            });
+
+            // Carregar os dados do perfil quando a página é carregada
+            loadProfileData();
+        });
+    </script>
+</body>
+</html>
