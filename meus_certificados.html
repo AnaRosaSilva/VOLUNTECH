@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Certificados - VolunTech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo VolunTech" width="150">
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="voluntario_dashboard.html">Painel</a></li>
+                    <li><a href="buscar_oportunidades.html">Buscar Oportunidades</a></li>
+                    <li><a href="minhas_candidaturas.html">Minhas Candidaturas</a></li>
+                    <li><a href="meus_certificados.html">Meus Certificados</a></li>
+                    <li><a href="perfil_voluntario.html">Meu Perfil</a></li>
+                    <li><a href="#" id="logoutButton">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="certificates-header" class="dashboard-header-section">
+            <div class="container">
+                <h2>Meus Certificados de Voluntariado</h2>
+                <p>Aqui você pode visualizar e baixar os certificados das atividades que você concluiu.</p>
+            </div>
+        </section>
+
+        <section id="certificates-list" class="opportunities-results-section">
+            <div class="container">
+                <h3>Certificados Conquistados</h3>
+                <div id="certificatesContainer" class="opportunities-container">
+                    <p>Carregando certificados...</p>
+                </div>
+                <p id="noCertificatesMessage" style="display: none; text-align: center; color: #555;">Você ainda não possui certificados. Voluntarie-se e comece a conquistar!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth_check.js"></script>
+    <script src="js/meus_certificados.js"></script>
+</body>
+</html>

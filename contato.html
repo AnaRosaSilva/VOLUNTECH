@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - VolunTech</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro_ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro_voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html" class="btn btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Entre em Contato Conosco</h2>
+                <p>Tem alguma pergunta, sugestão ou precisa de suporte? Preencha o formulário abaixo e entraremos em contato o mais breve possível.</p>
+
+                <form id="contactForm" class="contact-form">
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" required>
+
+                    <label for="email">Seu Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="assunto">Assunto:</label>
+                    <input type="text" id="assunto" name="assunto" required>
+
+                    <label for="mensagem">Mensagem:</label>
+                    <textarea id="mensagem" name="mensagem" rows="6" required></textarea>
+
+                    <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                </form>
+                <p id="message" style="margin-top: 20px; text-align: center;"></p>
+            </div>
+        </section>
+
+        <section id="info" class="info-section">
+            <div class="container">
+                <h3>Informações Adicionais</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Endereço</h4>
+                        <p>Rua Exemplo, 123</p>
+                        <p>Cidade, Estado, CEP</p>
+                        <p>Brasil</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Telefone</h4>
+                        <p>+55 (XX) XXXX-XXXX</p>
+                        <p>Disponível de Seg-Sex, 9h-18h</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Email</h4>
+                        <p>suporte@voluntech.com.br</p>
+                        <p>parcerias@voluntech.com.br</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/contato.js"></script> </body>
+</html>

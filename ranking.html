@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Voluntários - VolunTech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo VolunTech" width="150">
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="buscar_oportunidades.html">Buscar Oportunidades</a></li>
+                    <li><a href="ranking.html">Ranking</a></li>
+                    <li><a href="sobre.html">Sobre Nós</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                    <li><a href="login.html" class="btn btn-primary">Login</a></li>
+                    <li><a href="cadastro_voluntario.html" class="btn btn-secondary">Cadastre-se</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="ranking-header" class="search-header-section">
+            <div class="container">
+                <h2>Ranking dos Nossos Voluntários</h2>
+                <p>Conheça os voluntários que mais impactaram o mundo através do VolunTech!</p>
+            </div>
+        </section>
+
+        <section id="ranking-list" class="opportunities-results-section">
+            <div class="container">
+                <h3>Top Voluntários por Atividades Concluídas</h3>
+                <div class="ranking-table-container">
+                    <table id="rankingTable">
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>Nome do Voluntário</th>
+                                <th>Atividades Concluídas</th>
+                                <th>ONGs Ajudadas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="4">Carregando ranking...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p id="noRankingMessage" style="display: none; text-align: center; color: #555;">Nenhum voluntário no ranking ainda. Seja o primeiro!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth_check.js"></script>
+    <script src="js/ranking.js"></script>
+</body>
+</html>

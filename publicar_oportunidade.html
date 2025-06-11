@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicar Oportunidade - VolunTech</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo VolunTech" width="150">
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="ong_dashboard.html">Painel ONG</a></li>
+                    <li><a href="publicar_oportunidade.html">Publicar Oportunidade</a></li>
+                    <li><a href="gerenciar_candidaturas.html">Gerenciar Candidaturas</a></li>
+                    <li><a href="#" id="logoutButton">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="publish-opportunity" class="publish-opportunity-section">
+            <div class="container">
+                <h2>Publicar Nova Oportunidade de Voluntariado</h2>
+                <p>Preencha os detalhes da oportunidade para que os voluntários possam encontrá-la e se candidatar.</p>
+
+                <form id="opportunityForm" class="opportunity-form">
+                    <label for="titulo">Título da Oportunidade:</label>
+                    <input type="text" id="titulo" name="titulo" required>
+
+                    <label for="descricao">Descrição Completa:</label>
+                    <textarea id="descricao" name="descricao" rows="8" required></textarea>
+
+                    <label for="requisitos">Requisitos (habilidades, experiência, etc.):</label>
+                    <textarea id="requisitos" name="requisitos" rows="4"></textarea>
+
+                    <label for="data_evento">Data do Evento (ou prazo para o voluntariado):</label>
+                    <input type="date" id="data_evento" name="data_evento" required>
+
+                    <label for="local_evento">Local do Evento (Cidade/Endereço):</label>
+                    <input type="text" id="local_evento" name="local_evento" required>
+
+                    <button type="submit" class="btn btn-primary">Publicar Oportunidade</button>
+                </form>
+                <p id="message" style="margin-top: 20px; text-align: center;"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/publicar_oportunidade.js"></script> <script src="js/auth_check.js"></script> </body>
+</html>

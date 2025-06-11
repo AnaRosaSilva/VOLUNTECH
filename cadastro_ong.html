@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> VolunTech - Cadastro de ONG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro_ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro_voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li> 
+                    <li><a href="login.html" class="btn btn-primary">Login</a></li> 
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section id="ong-register" class="form-section">
+            <div class="container">
+                <h2>Cadastro de ONG</h2>
+                <p>Preencha os dados abaixo para cadastrar sua 
+                   Organização Não Governamental e começar a conectar-se com 
+                   voluntários.</p>
+                <form id="ongRegistrationForm">
+                    <label for="nome">Nome da ONG:</label>
+                    <input type="text" id="nome" name="nome" required><br><br>
+
+                    <label for="cnpj">CNPJ:</label>
+                    <input type="text" id="cnpj" name="cnpj" required><br><br>
+
+                    <label for="area_atuacao">Área de Atuação:</label>
+                    <input type="text" id="area_atuacao" name="area_atuacao"><br><br>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required><br><br>
+
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone"><br><br>
+
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" name="senha" required><br><br>
+
+                    <button type="submit">Cadastrar ONG</button>
+                </form>
+            </div>
+        </section>
+        <p id="message"></p>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <script src="js/ong_cadastro.js"></script> </body>
+</html>

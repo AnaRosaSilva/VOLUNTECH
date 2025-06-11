@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel da ONG - VolunTech</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/icone logo.jpeg" alt="Logo VolunTech" width="150">
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="ong_dashboard.html">Painel</a></li>
+                    <li><a href="publicar_oportunidade.html">Publicar Oportunidade</a></li>
+                    <li><a href="gerenciar_candidaturas.html">Gerenciar Candidaturas</a></li>
+                    <li><a href="perfil_ong.html">Meu Perfil</a></li>
+                    <li><a href="#" id="logoutButton">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="dashboard-header" class="dashboard-header-section">
+            <div class="container">
+                <h2 id="welcomeMessage">Bem-vindo(a), ONG!</h2>
+                <p>Aqui você pode gerenciar suas oportunidades de voluntariado e interagir com os voluntários.</p>
+            </div>
+        </section>
+
+        <section id="dashboard-summary" class="dashboard-summary-section">
+            <div class="container">
+                <h3>Resumo das Atividades</h3>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h4>Oportunidades Publicadas</h4>
+                        <p id="totalOpportunities">0</p>
+                        <a href="gerenciar_oportunidades.html" class="card-link">Ver todas</a>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Novas Candidaturas</h4>
+                        <p id="newApplications">0</p>
+                        <a href="gerenciar_candidaturas.html?status=pendente" class="card-link">Revisar agora</a>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Avaliações Recebidas</h4>
+                        <p id="totalReviews">0</p>
+                        <a href="ver_avaliacoes_ong.html" class="card-link">Ver avaliações</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recent-opportunities" class="recent-opportunities-section">
+            <div class="container">
+                <h3>Suas Oportunidades Mais Recentes</h3>
+                <div id="opportunitiesList" class="opportunities-list">
+                    <p>Carregando oportunidades...</p>
+                </div>
+                <div class="text-center" style="margin-top: 30px;">
+                    <a href="publicar_oportunidade.html" class="btn btn-primary btn-large">Publicar Nova Oportunidade</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth_check.js"></script> <script src="js/ong_dashboard.js"></script> </body>
+</html>

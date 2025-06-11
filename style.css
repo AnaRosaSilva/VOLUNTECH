@@ -1,0 +1,1207 @@
+/* style.css */
+
+/* --- Variáveis (Mantenha estas no topo do seu style.css) --- */
+:root {
+    --primary-color: #4CAF50; /* Verde principal */
+    --secondary-color: #007BFF; /* Azul para botões/destaques */
+    --text-color: #333; /* Cor padrão do texto */
+    --background-light: #f4f4f4; /* Fundo claro */
+    --background-dark: #2c3e50; /* Fundo escuro para menu mobile */
+    --white: #fff; /* Cor branca */
+    --border-color: #ddd; /* Cor da borda */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+    line-height: 1.6;
+    background-color: var(--background-light);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* Adiciona padding lateral para o conteúdo */
+}
+
+/* --- Header e Navegação --- */
+header {
+    background-color: var(--white);
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky; /* Fixa o header no topo ao rolar */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Garante que o header esteja acima de outros elementos */
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between; /* Espaça logo e nav */
+    align-items: center;
+}
+
+/* Estilo para o Logo de Texto */
+.logo {
+    text-decoration: none; /* Remove sublinhado do link */
+}
+
+.logo h1 {
+    font-size: 1.8em; /* Tamanho do título do logo */
+    font-weight: bold;
+    color: var(--primary-color); /* Cor do texto do logo */
+    margin: 0; /* Remove margem padrão do h1 */
+    padding: 0;
+}
+
+nav .main-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* Links lado a lado em desktop */
+    align-items: center;
+}
+
+nav .main-nav li {
+    margin-left: 25px; /* Espaçamento entre os itens de navegação */
+}
+
+nav .main-nav li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav .main-nav li a:hover {
+    color: var(--primary-color);
+}
+
+/* Estilo para o botão "Login" no header */
+nav .main-nav li .btn.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Garante que não tenha sublinhado */
+    font-weight: bold; /* Garante que seja negrito */
+}
+
+nav .main-nav li .btn.btn-primary:hover {
+    background-color: #388e3c; /* Um verde um pouco mais escuro */
+}
+
+/* Ícones de menu (hambúrguer) e fechar (x) */
+.menu-icon, .close-icon {
+    display: none; /* Escondidos por padrão em telas maiores */
+    font-size: 2em; /* Tamanho do ícone */
+    cursor: pointer;
+    color: var(--primary-color); /* Cor para o ícone de hambúrguer */
+    z-index: 1001; /* Garante que estejam acima do menu */
+}
+
+.close-icon {
+    position: absolute; /* Posição dentro do menu mobile */
+    top: 20px;
+    right: 20px;
+    color: var(--white); /* Cor para o ícone de fechar no menu aberto */
+}
+
+/* --- Responsividade (Media Queries) --- */
+@media (max-width: 768px) { /* Para telas de tablets e celulares */
+    header .container {
+        /* Não precisa de flex-wrap aqui se o menu for fixo */
+        /* justify-content: space-between; já está no padrão */
+        padding: 0 20px; /* Garante padding mesmo no mobile */
+    }
+
+    nav .main-nav {
+        /* Estado inicial do menu mobile (escondido) */
+        position: fixed; /* Fixo na tela */
+        top: 0;
+        right: -100%; /* Escondido fora da tela */
+        width: 70%; /* Largura do menu lateral */
+        max-width: 300px; /* Limita a largura máxima para telas maiores */
+        height: 100vh; /* Ocupa a altura total da viewport */
+        background-color: var(--background-dark); /* Fundo escuro para o menu */
+        flex-direction: column; /* Links empilhados verticalmente */
+        justify-content: flex-start; /* Alinha links ao topo */
+        padding-top: 80px; /* Espaço para o ícone de fechar */
+        box-shadow: -2px 0 5px rgba(0,0,0,0.4);
+        transition: right 0.3s ease-in-out; /* Animação de slide */
+        z-index: 1000; /* Garante que o menu esteja acima de outros elementos */
+    }
+
+    nav .main-nav.open {
+        right: 0; /* Mostra o menu */
+    }
+
+    nav .main-nav li {
+        margin: 15px 0; /* Espaçamento vertical entre os links no mobile */
+        width: 100%; /* Faz o li ocupar toda a largura */
+        text-align: center; /* Centraliza o texto do link */
+    }
+
+    nav .main-nav li a {
+        color: var(--white); /* Cor dos links no menu mobile */
+        display: block; /* Faz o link ocupar toda a largura do li */
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador sutil */
+    }
+    
+    nav .main-nav li:last-child a { /* Remove a borda do último item */
+        border-bottom: none;
+    }
+
+    nav .main-nav li .btn.btn-primary {
+        background-color: var(--secondary-color); /* Uma cor diferente para o botão no menu mobile */
+        margin-top: 20px;
+        display: inline-block; /* Para o padding funcionar */
+        padding: 10px 20px;
+    }
+
+    .menu-icon {
+        display: block; /* Mostra o ícone de hambúrguer */
+    }
+
+    .close-icon {
+        display: block; /* Mostra o ícone de fechar */
+    }
+}
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #45a049; /* Um tom ligeiramente mais escuro */
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    border: 2px solid var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #0069d9;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.1em;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('img/hero-bg.jpg') no-repeat center center/cover; /* Exemplo de imagem de fundo */
+    color: var(--white);
+    text-align: center;
+    padding: 100px 0;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Overlay para a imagem de fundo */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Escurece a imagem de fundo */
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-section h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: var(--white);
+}
+
+.hero-section p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Sections Generais */
+section {
+    padding: 60px 0;
+    text-align: center;
+}
+
+section h3 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+    color: var(--text-color);
+}
+
+/* Features Section */
+.features-section {
+    background-color: var(--white);
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.feature-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.feature-item {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    width: 30%;
+    min-width: 280px;
+    text-align: center;
+}
+
+.feature-item img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+}
+
+.feature-item h4 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+/* Seção de Funcionalidades */
+.features-section {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.features-section h3 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: var(--primary-color);
+}
+
+.features-section ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.features-section ul li {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(33% - 40px); /* Ajuste para responsividade */
+    text-align: left;
+}
+
+/* Footer */
+footer {
+    background-color: var(--background-dark);
+    color: var(--white);
+    padding: 30px 0;
+    text-align: center;
+}
+
+.footer-links a {
+    color: var(--white);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+}
+
+/* Ajustes para Telas Menores (Responsividade) */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav ul {
+        flex-direction: column;
+        margin-top: 15px;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .hero-section h2 {
+        font-size: 2.2em;
+    }
+
+    .hero-section p {
+        font-size: 1em;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero-buttons .btn {
+        width: 80%; /* Ajuste a largura para botões em colunas */
+        margin: 0 auto;
+    }
+
+    .feature-item, .testimonial-item {
+        width: 80%; /* Ocupar mais largura em telas pequenas */
+        margin: 0 auto; /* Centralizar */
+    }
+
+    .feature-grid, .testimonial-carousel {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Adições ao style.css para a página de contato */
+
+.contact-section {
+    background-color: var(--background-light);
+    padding: 60px 0;
+}
+
+.contact-section h2, .contact-section p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: calc(100% - 20px); /* Ajusta para padding */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.contact-form textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 120px;
+}
+
+.contact-form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+/* Informações Adicionais */
+.info-section {
+    background-color: var(--white);
+    padding: 60px 0;
+    border-top: 1px solid var(--border-color);
+}
+
+.info-section h3 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.info-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.info-item {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    width: 28%; /* Ajuste a largura conforme necessário */
+    min-width: 250px;
+    text-align: center;
+}
+
+.info-item h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    font-size: 1.3em;
+}
+
+.info-item p {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+/* Responsividade para a seção de contato */
+@media (max-width: 768px) {
+    .contact-form {
+        padding: 20px;
+    }
+
+    .contact-form input[type="text"],
+    .contact-form input[type="email"],
+    .contact-form textarea {
+        width: calc(100% - 20px);
+    }
+
+    .info-item {
+        width: 90%; /* Ocupa quase a largura total em telas menores */
+    }
+}
+
+/* Estilos para a Seção "Sobre Nós" */
+.about-section {
+    padding: 60px 0;
+    background-color: #FFF;
+    text-align: center;
+}
+
+.about-section h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.about-section h3 {
+    font-size: 2rem;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+.about-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    color: var(--text-color);
+}
+
+.features-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-item {
+    background-color: var(--background-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    flex: 1 1 calc(33% - 60px); /* Aproximadamente 3 itens por linha */
+    max-width: 350px;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.feature-item h4 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--text-color);
+}
+
+.team-members {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.team-member {
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 200px; /* Largura fixa para os cards do time */
+}
+
+.team-member img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 3px solid var(--primary-color);
+}
+
+.team-member h4 {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.team-member p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Media Queries para responsividade da página Sobre */
+@media (max-width: 992px) {
+    .features-list {
+        flex-direction: column; /* Empilha os itens em telas menores */
+        align-items: center;
+    }
+    .feature-item {
+        flex: 1 1 calc(50% - 60px); /* Dois itens por linha em tablets */
+        max-width: 450px;
+    }
+    .team-members {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .feature-item {
+        flex: 1 1 100%; /* Um item por linha em celulares */
+        max-width: 90%;
+    }
+}
+
+/* Adições ao style.css para a página de Publicar Oportunidade */
+
+.publish-opportunity-section {
+    background-color: var(--background-light);
+    padding: 60px 0;
+}
+
+.publish-opportunity-section h2, .publish-opportunity-section p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.opportunity-form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.opportunity-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.opportunity-form input[type="text"],
+.opportunity-form input[type="date"],
+.opportunity-form textarea {
+    width: calc(100% - 20px); /* Ajusta para padding */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.opportunity-form textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.opportunity-form button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .opportunity-form {
+        padding: 20px;
+    }
+    .opportunity-form input, .opportunity-form textarea {
+        width: calc(100% - 20px);
+    }
+}
+
+/* Adições ao style.css para o painel da ONG */
+
+.dashboard-header-section {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 50px 0;
+    text-align: center;
+}
+
+.dashboard-header-section h2 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: var(--white);
+}
+
+.dashboard-header-section p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.dashboard-summary-section {
+    background-color: var(--background-light);
+    padding: 60px 0;
+}
+
+.dashboard-summary-section h3 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: var(--text-color);
+}
+
+.summary-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.summary-card {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 28%; /* Ajuste a largura conforme necessário */
+    min-width: 280px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.summary-card h4 {
+    font-size: 1.6em;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+}
+
+.summary-card p {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.summary-card .card-link {
+    display: inline-block;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.summary-card .card-link:hover {
+    color: var(--primary-color);
+}
+
+/* Recent Opportunities Section */
+.recent-opportunities-section {
+    padding: 60px 0;
+    background-color: var(--white);
+    border-top: 1px solid var(--border-color);
+}
+
+.recent-opportunities-section h3 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: var(--text-color);
+}
+
+.opportunities-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Layout responsivo em grid */
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.opportunity-item {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.opportunity-item h4 {
+    font-size: 1.4em;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.opportunity-item p {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.opportunity-item .details-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.opportunity-item .details-link:hover {
+    color: var(--secondary-color);
+}
+
+/* Centraliza texto e botões */
+.text-center {
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-header-section {
+        padding: 40px 0;
+    }
+    .dashboard-header-section h2 {
+        font-size: 2em;
+    }
+    .summary-card {
+        width: 90%;
+    }
+    .opportunities-list {
+        grid-template-columns: 1fr; /* Uma coluna em telas menores */
+    }
+}
+
+/* Adições ao style.css para a página de Buscar Oportunidades */
+
+.search-header-section {
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 50px 0;
+    text-align: center;
+}
+
+.search-header-section h2 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    color: var(--white);
+}
+
+.search-header-section p {
+    font-size: 1.1em;
+    opacity: 0.9;
+    margin-bottom: 30px;
+}
+
+.search-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.search-filters input[type="text"],
+.search-filters input[type="date"] {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 250px;
+    max-width: 100%;
+}
+
+.search-filters button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.search-filters .btn-primary {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.search-filters .btn-primary:hover {
+    background-color: #45a049;
+}
+
+.search-filters .btn-outline {
+    background-color: transparent;
+    color: var(--white);
+    border: 2px solid var(--white);
+}
+
+.search-filters .btn-outline:hover {
+    background-color: var(--white);
+    color: var(--secondary-color);
+}
+
+
+.opportunities-results-section {
+    padding: 60px 0;
+    background-color: var(--background-light);
+}
+
+.opportunities-results-section h3 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: var(--text-color);
+}
+
+.opportunities-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.opportunity-card {
+    background-color: var(--white);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+}
+
+.opportunity-card h4 {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.opportunity-card .ong-name {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.opportunity-card p {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.opportunity-card .details-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.opportunity-card .details-link:hover {
+    color: var(--primary-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .search-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+    .search-filters input, .search-filters button {
+        width: 90%;
+    }
+    .opportunity-card {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .opportunities-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Seções de dashboard (já existentes, mas reforçando que são usadas aqui) */
+.dashboard-header-section {
+    background-color: var(--primary-color); /* Pode ser uma cor diferente para voluntários */
+    color: var(--white);
+    padding: 50px 0;
+    text-align: center;
+}
+
+/* Para o estilo das recomendações, pode usar os mesmos estilos de card de oportunidade */
+.recommended-opportunities-section {
+    padding: 60px 0;
+    background-color: var(--background-light); /* Ou var(--white) */
+    border-top: 1px solid var(--border-color);
+}
+
+.recommended-opportunities-section h3 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: var(--text-color);
+}
+
+/* Adições ao style.css para o Ranking */
+
+.ranking-table-container {
+    overflow-x: auto; /* Permite scroll horizontal em telas pequenas */
+    margin-top: 30px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+#rankingTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+#rankingTable th, #rankingTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#rankingTable th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#rankingTable tbody tr:nth-child(even) {
+    background-color: var(--background-light);
+}
+
+#rankingTable tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+#rankingTable tbody td:first-child {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+/* --- ESTILOS GERAIS DE FORMULÁRIO --- */
+
+.form-section {
+    padding: 60px 0;
+    background-color: var(--background-light);
+    text-align: center;
+}
+
+.form-section h2 {
+    font-size: 2.5em;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.form-section p {
+    font-size: 1.1em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-section form {
+    background-color: var(--white);
+    max-width: 500px; /* Limita a largura do formulário */
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    text-align: left; /* Alinha o texto dentro do formulário à esquerda */
+}
+
+.form-section label {
+    display: block; /* Cada label em sua própria linha */
+    margin-bottom: 8px;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.form-section input[type="text"],
+.form-section input[type="email"],
+.form-section input[type="password"],
+.form-section input[type="tel"],
+.form-section textarea {
+    width: calc(100% - 20px); /* Ocupa 100% menos o padding */
+    padding: 12px 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+
+.form-section textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 80px;
+}
+
+.form-section input[type="text"]:focus,
+.form-section input[type="email"]:focus,
+.form-section input[type="password"]:focus,
+.form-section input[type="tel"]:focus,
+.form-section textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2); /* Sutil brilho ao focar */
+}
+
+.form-section button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: auto; /* Ajusta a largura ao conteúdo */
+    display: block; /* Centraliza o botão */
+    margin: 20px auto 0 auto;
+}
+
+.form-section button[type="submit"]:hover {
+    background-color: #388e3c; /* Um verde um pouco mais escuro no hover */
+}
+
+/* Mensagens de sucesso/erro (já presente no HTML com id="message") */
+#message {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Estilos específicos para a seção de login/cadastro (pode ajustar cores se quiser) */
+#login-section, #voluntario-register, #ong-register {
+    background-color: var(--background-light); /* Fundo claro para o formulário */
+}
+
+#login-section p, #voluntario-register p, #ong-register p {
+    margin-top: 20px;
+    font-size: 1em;
+    color: var(--text-color);
+}
+
+#login-section p a, #voluntario-register p a, #ong-register p a {
+    color: var(--secondary-color); /* Cor dos links no texto de "Não tem conta?" */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#login-section p a:hover, #voluntario-register p a:hover, #ong-register p a:hover {
+    text-decoration: underline;
+}
+
+/* Responsividade para formulários */
+@media (max-width: 600px) {
+    .form-section form {
+        padding: 25px; /* Reduz o padding em telas menores */
+        margin: 0 15px; /* Adiciona margem lateral para não colar nas bordas */
+    }
+
+    .form-section h2 {
+        font-size: 2em;
+    }
+}

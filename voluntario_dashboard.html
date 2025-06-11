@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Voluntário - VolunTech</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo VolunTech" width="150">
+            </div>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="voluntario_dashboard.html">Painel</a></li>
+                    <li><a href="buscar_oportunidades.html">Buscar Oportunidades</a></li>
+                    <li><a href="minhas_candidaturas.html">Minhas Candidaturas</a></li>
+                    <li><a href="perfil_voluntario.html">Meu Perfil</a></li>
+                    <li><a href="#" id="logoutButton">Sair</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="dashboard-header" class="dashboard-header-section">
+            <div class="container">
+                <h2 id="welcomeMessage">Bem-vindo(a), Voluntário!</h2>
+                <p>Aqui você pode acompanhar suas atividades, candidaturas e explorar novas oportunidades.</p>
+            </div>
+        </section>
+
+        <section id="dashboard-summary" class="dashboard-summary-section">
+            <div class="container">
+                <h3>Seu Resumo de Voluntariado</h3>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h4>Candidaturas Pendentes</h4>
+                        <p id="pendingApplications">0</p>
+                        <a href="minhas_candidaturas.html?status=pendente" class="card-link">Ver agora</a>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Candidaturas Aprovadas</h4>
+                        <p id="approvedApplications">0</p>
+                        <a href="minhas_candidaturas.html?status=aprovada" class="card-link">Ver aprovadas</a>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Certificados Disponíveis</h4>
+                        <p id="availableCertificates">0</p>
+                        <a href="meus_certificados.html" class="card-link">Baixar certificados</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommended-opportunities" class="recommended-opportunities-section">
+            <div class="container">
+                <h3>Oportunidades Recomendadas</h3>
+                <div id="recommendedOpportunitiesList" class="opportunities-container">
+                    <p>Carregando recomendações...</p>
+                </div>
+                <div class="text-center" style="margin-top: 30px;">
+                    <a href="buscar_oportunidades.html" class="btn btn-primary btn-large">Explorar Mais Oportunidades</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth_check.js"></script> <script src="js/voluntario_dashboard.js"></script> </body>
+</html>

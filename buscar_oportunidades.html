@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Oportunidades - VolunTech</title>
+    <link rel="stylesheet" href="style.css"> </head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VolunTech</h1>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="cadastro_ong.html">Cadastrar ONG</a></li>
+                    <li><a href="cadastro_voluntario.html">Cadastrar Voluntário</a></li>
+                    <li><a href="contato.html">Contato</a></li> 
+                    <li><a href="login.html" class="btn btn-primary">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="search-header" class="search-header-section">
+            <div class="container">
+                <h2>Encontre a Oportunidade Perfeita</h2>
+                <p>Explore centenas de oportunidades de voluntariado que combinam com suas paixões e habilidades.</p>
+                <div class="search-filters">
+                    <input type="text" id="searchTerm" placeholder="Pesquisar por título, descrição, ONG...">
+                    <input type="text" id="filterLocation" placeholder="Localização (cidade, estado)">
+                    <input type="date" id="filterDate" title="Filtrar por data do evento">
+                    <button id="applyFilters" class="btn btn-primary">Buscar</button>
+                    <button id="clearFilters" class="btn btn-outline">Limpar Filtros</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="opportunities-results" class="opportunities-results-section">
+            <div class="container">
+                <h3>Oportunidades Disponíveis</h3>
+                <div id="opportunitiesContainer" class="opportunities-container">
+                    <p>Carregando oportunidades...</p>
+                </div>
+                <p id="noResultsMessage" style="display: none; text-align: center; color: #555;">Nenhuma oportunidade encontrada com os critérios de busca.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 VolunTech. Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/auth_check.js"></script> 
+    <script src="js/buscar_oportunidades.js"></script> </body>
+</html>
